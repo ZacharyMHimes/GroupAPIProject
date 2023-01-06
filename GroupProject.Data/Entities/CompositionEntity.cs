@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GroupProject.Data.Entities
 {
-    public class Composition
+    public class CompositionEntity
     {
         [Key]
         public int Id {get; set;}
@@ -22,10 +22,10 @@ namespace GroupProject.Data.Entities
         public int TotalViews {get; set;}
         public int DitterDorfs {get; set;}
 
-        public Composer Composer {get; set;}
-        public Genre Genre {get; set;}
-        public Period Period {get; set;}
+        public ComposerEntity Composer {get; set;}
+        public GenreEntity Genre {get; set;}
+        public PeriodEntity Period {get; set;}
         
-        public List<Instrument> Instrumentation {get;set;}
+        public List<InstrumentEntity> Instrumentation {get;set;}
     }
 }

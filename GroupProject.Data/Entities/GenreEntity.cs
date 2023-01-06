@@ -6,17 +6,11 @@ using System.Threading.Tasks;
 
 namespace GroupProject.Data.Entities
 {
-    public class Period
+    public class GenreEntity
     {
         [Key]
         public int Id {get; set;}
 
-        [Required]
-        public string Name {get; set;}
-
-        [Required]
-        public DateOnly StartYear {get; set;}
-
-        public DateOnly? EndYear {get; set;}
+        public string? GenreName {get; set;}
     }
 }

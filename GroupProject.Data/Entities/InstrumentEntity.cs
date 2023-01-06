@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace GroupProject.Data.Entities
 {
-    public class Genre
+    public class InstrumentEntity
     {
         [Key]
         public int Id {get; set;}
 
-        public string? GenreName {get; set;}
+        [Required]
+        public string InstrumentName {get; set;}
     }
 }

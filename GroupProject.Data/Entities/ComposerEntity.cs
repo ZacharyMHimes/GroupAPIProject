@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GroupProject.Data.Entities
 {
-    public class Composer
+    public class ComposerEntity
     {
         
     }

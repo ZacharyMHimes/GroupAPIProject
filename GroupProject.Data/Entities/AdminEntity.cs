@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace GroupProject.Data.Entities
 {
-    public class CauseOfDeath
+    public class AdminEntity
     {
         [Key]
         public int Id {get; set;}
-
         [Required]
-        public string Cause {get; set;}
+        public string UserName {get;set;}
+        [Required]
+        public string Password {get; set;}
     }
 }

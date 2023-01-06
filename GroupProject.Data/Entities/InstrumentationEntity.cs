@@ -14,7 +14,7 @@ namespace GroupProject.Data.Entities
         public int InstrumentId {get; set;}
         [Required]
         public int CompositionId {get; set;}
-        public Instrument Instrument {get; set;}
-        public Composition Composition {get; set;}
+        public InstrumentEntity Instrument {get; set;}
+        public CompositionEntity Composition {get; set;}
     }
 }

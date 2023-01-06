@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace GroupProject.Data.Entities
 {
-    public class Instrument
+    public class PeriodEntity
     {
         [Key]
         public int Id {get; set;}
 
         [Required]
-        public string InstrumentName {get; set;}
+        public string Name {get; set;}
+
+        [Required]
+        public DateOnly StartYear {get; set;}
+
+        public DateOnly? EndYear {get; set;}
     }
 }
