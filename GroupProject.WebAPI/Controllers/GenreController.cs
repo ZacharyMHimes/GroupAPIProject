@@ -19,7 +19,7 @@ namespace GroupProject.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateGenre([FromBody] GenreRegister request)
+        public async Task<IActionResult> CreateGenre([FromBody] GenreCreate request)
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
@@ -29,6 +29,8 @@ namespace GroupProject.WebAPI.Controllers
                 
                 return BadRequest("Genre could not be added to catalog.");
             }
+
+        //todo - GetAll and GetById
 
         [HttpPut]
         public async Task<IActionResult> UpdateGenreById([FromBody] GenreUpdate request)
@@ -42,11 +44,11 @@ namespace GroupProject.WebAPI.Controllers
         }
 
         [HttpDelete("{noteId:int}")]
-        public async Task<IActionResult> DeleteGenre([FromRoute] int genreId)
+        public async Task<IActionResult> DeleteGenre([FromRoute] int genreId, string genreName)
         {
             return await _genreService.DeleteGenreAsync(genreId)
-                ? Ok($"Genre Entry {genreId} was deleted successfully.")
-                : BadRequest($"Genre Entry {genreId} could not be deleted.");
+                ? Ok($"Genre Entry {genreName} was deleted successfully.")
+                : BadRequest($"Genre Entry {genreName} could not be deleted.");
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Data;
-using GroupProject.Data.Entities;
 using GroupProject.Models.Period;
 
 namespace GroupProject.Services.Period
@@ -31,7 +30,7 @@ namespace GroupProject.Services.Period
             return numberOfChanges == 1;
         }
 
-        public async Task<PeriodDetail> GetPeriodAsync(int periodId)
+        public async Task<PeriodDetail?> GetPeriodAsync(int periodId)
         {
             var periodEntity = await DbContext.Periods.FindAsync(periodId);
 

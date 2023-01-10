@@ -23,7 +23,7 @@ namespace GroupProject.Services.Composer
         {
             var composerEntity = new ComposerEntity
             {
-                Id = _composerId,
+                Id = _composerId,  //* how is the Key Id generated? From the front end?
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Nationality = request.Nationality,
@@ -74,6 +74,7 @@ namespace GroupProject.Services.Composer
         }
 
 // Should Admin be able to edit sexy quotient at will?
+//todo - Add Update Composer SexyQuotient Async Method
         public async Task<bool> UpdateComposerAsync(ComposerUpdate request)
         {
             var composerEntity = await _dbContext.Composers.FindAsync(request.Id);

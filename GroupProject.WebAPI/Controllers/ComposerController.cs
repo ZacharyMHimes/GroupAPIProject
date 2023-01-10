@@ -58,10 +58,10 @@ namespace GroupProject.WebAPI.Controllers
         }
         
         [HttpDelete("{noteId:int}")]
-        public async Task<IActionResult> DeleteComposer([FromRoute] int composerId) //*it'd be cool to pass in First and Last name so return string could say their name instead of arbitrary ID.
+        public async Task<IActionResult> DeleteComposer([FromRoute] int composerId, string firstName, string lastName) //*it'd be cool to pass in First and Last name so return string could say their name instead of arbitrary ID.
         {
             return await _composerService.DeleteComposerAsync(composerId)
-                ? Ok($"Composer Entry {composerId} was deleted successfully.")
+                ? Ok($"Composer {firstName} {lastName} was deleted successfully.") //todo check string concatenation syntax
                 : BadRequest($"Composer Entry {composerId} could not be deleted.");
         }
         

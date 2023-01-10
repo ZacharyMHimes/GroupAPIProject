@@ -20,7 +20,7 @@ namespace GroupProject.Services.Genre
             DbContext = context;
         }
 
-        public async Task<bool> CreateGenreAsync(GenreRegister request)
+        public async Task<bool> CreateGenreAsync(GenreCreate request)
         {
             var genreEntity = new GenreEntity
             {

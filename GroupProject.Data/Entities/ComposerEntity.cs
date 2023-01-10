@@ -22,4 +22,6 @@ using System.Threading.Tasks;
 
         public CauseOfDeathEntity CauseOfDeath {get; set;}
         public List<CompositionEntity> Compositions {get; set;}
+
+        //* Version 1.1 - Add period associations
     }
