@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Data;
 using GroupProject.Models.Composer;
+using Microsoft.EntityFrameworkCore;
 
 namespace GroupProject.Services.Composer 
 {
@@ -43,11 +44,13 @@ namespace GroupProject.Services.Composer
                 .Where(entity => entity.Id == _composerId)
                 .Select(entity => new ComposerListItem
                     {
-                        // Id = entity.Id; (we don't need to deliver the Id to the model, correct?)
-                        // build model input here
-
-                    });
+                        Id = entity.Id,
+                        FirstName = entity.FirstName,
+                        LastName = entity.LastName
+                    })
                     .ToListAsync();
+
+            return composers;
         }
 
         public async Task<ComposerDetail> GetComposerIdAsync(int composerId)
