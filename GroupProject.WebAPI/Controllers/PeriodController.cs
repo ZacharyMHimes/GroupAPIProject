@@ -12,8 +12,8 @@ namespace GroupProject.WebAPI.Controllers
     [Route("api/[controller]")]
     public class PeriodController : ControllerBase
     {
-        private readonly iPeriodServices _periodServices;
-        public PeriodController(iPeriodServices periodServices)
+        private readonly IPeriodService _periodServices;
+        public PeriodController(IPeriodService periodServices)
         {
             _periodServices = periodServices;
         }

@@ -6,7 +6,7 @@ using GroupProject.Models.Period;
 
 namespace GroupProject.Services.Period
 {
-    public interface iPeriodServices
+    public interface IPeriodService
     {
         Task<bool> CreatePeriodAsync(PeriodCreate periodEntity);
         Task<PeriodDetail> GetPeriodAsync(int periodId);

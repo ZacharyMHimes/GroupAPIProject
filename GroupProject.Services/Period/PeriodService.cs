@@ -7,12 +7,12 @@ using GroupProject.Models.Period;
 
 namespace GroupProject.Services.Period
 {
-    public class PeriodServices : iPeriodServices
+    public class PeriodService : IPeriodService
     {
     private readonly ApplicationDbContext _context;
     private ApplicationDbContext DbContext;
 
-    public PeriodServices(ApplicationDbContext context)
+    public PeriodService(ApplicationDbContext context)
     {
         DbContext = context;
     }
@@ -30,7 +30,12 @@ namespace GroupProject.Services.Period
             return numberOfChanges == 1;
         }
 
-        public async Task<PeriodDetail?> GetPeriodAsync(int periodId)
+        public Task<PeriodDetail> GetPeriodAsync(int periodId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<PeriodDetail?> GetPeriodIdAsync(int periodId)
         {
             var periodEntity = await DbContext.Periods.FindAsync(periodId);
 
@@ -42,5 +47,10 @@ namespace GroupProject.Services.Period
                 EndYear = periodEntity.EndYear
             };
         }
+
+        //todo GetAll Periods
+        //todo Update Period
+        //todo Delete Period
+
     }
 }

@@ -1,5 +1,7 @@
 using GroupProject.Data;
 using GroupProject.Services.Composer;
+using GroupProject.Services.Genre;
+using GroupProject.Services.Period;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IComposerService, ComposerService>();
+builder.Services.AddScoped<IPeriodService, PeriodService>();
+builder.Services.AddScoped<IGenreService, GenreService>();
 
 var app = builder.Build();
 
