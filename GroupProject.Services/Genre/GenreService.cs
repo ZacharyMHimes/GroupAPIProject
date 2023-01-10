@@ -34,6 +34,31 @@ namespace GroupProject.Services.Genre
             return numberOfChanges == 1;
         }
 
+        public async Task<IEnumerable<GenreListItem>> GetAllGenresAsync()
+        {
+            var genres = await _context.Genres
+                .Where(entity => entity.Id == _genreId)
+                .Select(entity => new GenreListItem
+                    {
+                        Id = entity.Id,
+                        GenreName = entity.GenreName
+                    })
+                    .ToListAsync();
+
+            return genres;
+        }
+
+        public async Task<GenreDetail?> GetGenreIdAsync(int genreId)
+        {
+                var genreEntity = await _context.Genres.FirstOrDefaultAsync(e =>
+                e.Id == genreId && e.Id == _genreId);
+                return genreEntity is null ? null : new GenreDetail
+                    {
+                        Id = genreEntity.Id,
+                        GenreName = genreEntity.GenreName
+                    };
+        }
+
         public async Task<bool> UpdateGenreAsync(GenreUpdate request)
         {
             var genreEntity = await _context.Genres.FindAsync(request.Id);
