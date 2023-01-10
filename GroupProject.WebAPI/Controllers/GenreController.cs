@@ -32,6 +32,22 @@ namespace GroupProject.WebAPI.Controllers
 
         //todo - GetAll and GetById
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllGenres()
+            {
+                var notes = await _genreService.GetAllGenresAsync();
+                return Ok();
+            }
+        
+        [HttpGet("{noteId:int}")]
+        public async Task<IActionResult> GetGenreById([FromRoute] int genreId)
+        {
+            var detail = await _genreService.GetGenreIdAsync(genreId);
+            return detail is not null
+                ? Ok(detail)
+                : NotFound();
+        }
+
         [HttpPut]
         public async Task<IActionResult> UpdateGenreById([FromBody] GenreUpdate request)
         {
