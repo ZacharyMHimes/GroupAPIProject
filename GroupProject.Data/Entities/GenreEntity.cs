@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GroupProject.Data.Entities
-{
     public class GenreEntity
     {
         [Key]
@@ -13,4 +11,3 @@ namespace GroupProject.Data.Entities
 
         public string? GenreName {get; set;}
     }
-}

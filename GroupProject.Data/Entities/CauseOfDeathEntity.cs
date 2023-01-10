@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GroupProject.Data.Entities
-{
     public class CauseOfDeathEntity
     {
         [Key]
@@ -14,4 +12,3 @@ namespace GroupProject.Data.Entities
         [Required]
         public string Cause {get; set;}
     }
-}

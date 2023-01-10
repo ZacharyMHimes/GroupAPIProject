@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GroupProject.Data.Entities
-{
+
     public class PeriodEntity
     {
         [Key]
@@ -19,4 +18,3 @@ namespace GroupProject.Data.Entities
 
         public DateOnly? EndYear {get; set;}
     }
-}
