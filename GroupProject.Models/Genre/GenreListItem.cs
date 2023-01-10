@@ -8,6 +8,6 @@ namespace GroupProject.Models.Genre
     public class GenreListItem
     {
         public int Id {get; set;}
-        public string GenreName {get; set;}
+        public string? GenreName {get; set;}
     }
 }

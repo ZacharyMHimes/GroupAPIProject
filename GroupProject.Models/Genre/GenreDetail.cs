@@ -9,6 +9,6 @@ namespace GroupProject.Models.Genre
     public class GenreDetail
     {
         public int Id {get; set;}
-        public string GenreName {get; set;}
+        public string? GenreName {get; set;}
     }
 }
