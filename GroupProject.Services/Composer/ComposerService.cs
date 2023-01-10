@@ -19,6 +19,16 @@ namespace GroupProject.Services.Composer
         public async Task<bool> CreateComposerAsync(ComposerCreate request)
         {
             var composerEntity = new ComposerEntity
+            {
+                Id = _composerId,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Nationality = request.Nationality,
+                BirthDate = request.BirthDate,
+                DeathDate = request.DeathDate,
+                SexyQuotientUpVotes = request.SexyQuotientUpVotes = 0,
+                SexyQuotientTotalVotes = request.SexyQuotientTotalVotes = 0,
+            };
         }
 
         public async Task<IEnumerable<ComposerListItem>> GetAllComposersAsync()
