@@ -30,6 +30,11 @@ namespace GroupProject.Services.Composer
                 SexyQuotientUpVotes = request.SexyQuotientUpVotes = 0,
                 SexyQuotientTotalVotes = request.SexyQuotientTotalVotes = 0,
             };
+
+            _dbContext.Composers.Add(composerEntity);
+
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
+            return numberOfChanges == 1;
         }
 
         public async Task<IEnumerable<ComposerListItem>> GetAllComposersAsync()

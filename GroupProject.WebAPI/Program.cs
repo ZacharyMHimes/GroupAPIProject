@@ -1,4 +1,5 @@
 using GroupProject.Data;
+using GroupProject.Services.Composer;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<IComposerService, ComposerService>();
 
 var app = builder.Build();
 
