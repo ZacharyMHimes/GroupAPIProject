@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GroupProject.Data.Entities
-{
     public class InstrumentationEntity
     {
         [Key]
@@ -17,4 +15,3 @@ namespace GroupProject.Data.Entities
         public InstrumentEntity Instrument {get; set;}
         public CompositionEntity Composition {get; set;}
     }
-}

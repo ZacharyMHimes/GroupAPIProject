@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GroupProject.Data.Entities
-{
+
     public class AdminEntity
     {
         [Key]
@@ -15,4 +14,3 @@ namespace GroupProject.Data.Entities
         [Required]
         public string Password {get; set;}
     }
-}

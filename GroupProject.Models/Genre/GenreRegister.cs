@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-    public class GenreEntity
+namespace GroupProject.Models.Genre
+{
+    public class GenreRegister
     {
-        [Key]
-        public int Id {get; set;}
-
+        [MinLength(1, ErrorMessage = "{0} must have at least {1} ")]
         public string? GenreName {get; set;}
     }
+}

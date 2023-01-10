@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GroupProject.Data.Entities;
+using GroupProject.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace GroupProject.Data

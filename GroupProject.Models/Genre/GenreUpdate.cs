@@ -4,11 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-    public class CauseOfDeathEntity
+namespace GroupProject.Models.Genre
+{
+    public class GenreUpdate
     {
-        [Key]
         public int Id {get; set;}
 
-        [Required]
-        public string Cause {get; set;}
+        public string? GenreName {get; set;}
     }
+}

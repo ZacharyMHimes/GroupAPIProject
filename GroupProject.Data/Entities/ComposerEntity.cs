@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GroupProject.Data.Entities
-{
     public class ComposerEntity
     {
         [Key]
@@ -25,4 +23,3 @@ namespace GroupProject.Data.Entities
         public CauseOfDeathEntity CauseOfDeath {get; set;}
         public List<CompositionEntity> Compositions {get; set;}
     }
-}

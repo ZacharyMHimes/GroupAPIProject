@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GroupProject.Data.Entities
-{
+
+
     public class InstrumentEntity
     {
         [Key]
@@ -14,4 +14,3 @@ namespace GroupProject.Data.Entities
         [Required]
         public string InstrumentName {get; set;}
     }
-}
