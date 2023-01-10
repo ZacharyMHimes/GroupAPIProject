@@ -1,3 +1,4 @@
+using System.Data.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,16 +54,22 @@ namespace GroupProject.Services.Composer
             return composers;
         }
 
-        public async Task<ComposerDetail> GetComposerIdAsync(int composerId)
+        public async Task<ComposerDetail?> GetComposerIdAsync(int composerId)
         {
                 var composerEntity = await _dbContext.Composers.FirstOrDefaultAsync(e =>
                 e.Id == composerId && e.Id == _composerId);
                 return composerEntity is null ? null : new ComposerDetail
                     {
-                        // Build Composer Detail Model input here
-
-
-
+                        Id = composerEntity.Id,
+                        FirstName = composerEntity.FirstName,
+                        LastName = composerEntity.LastName,
+                        Nationality = composerEntity.Nationality,
+                        BirthDate = composerEntity.BirthDate,
+                        DeathDate = composerEntity.DeathDate,
+                        SexyQuotientUpVotes = composerEntity.SexyQuotientUpVotes,
+                        SexyQuotientTotalVotes = composerEntity.SexyQuotientTotalVotes,
+                        
+                        //*Maybe some fancy magic to display cause of death?
                     };
         }
 
@@ -83,7 +90,7 @@ namespace GroupProject.Services.Composer
 
         }
 
-        public async Task<bool> DeleteNoteAsync(int composerId)
+        public async Task<bool> DeleteComposerAsync(int composerId)
         {
             var composerEntity = await _dbContext.Composers.FindAsync(composerId);
             if(composerEntity?.Id != _composerId)

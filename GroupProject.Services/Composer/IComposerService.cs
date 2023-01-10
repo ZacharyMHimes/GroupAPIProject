@@ -10,5 +10,7 @@ namespace GroupProject.Services.Composer
     {
     Task<bool> CreateComposerAsync(ComposerCreate request);
     Task<IEnumerable<ComposerListItem>> GetAllComposersAsync();
+
+    Task<bool> DeleteComposerAsync(int composerId);
     }
 }
