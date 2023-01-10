@@ -7,6 +7,7 @@ namespace GroupProject.Services.Composer
 {
     public interface IComposerService
     {
-        
+    Task<bool> CreateComposerAsync(ComposerCreate request);
+    
     }
 }
