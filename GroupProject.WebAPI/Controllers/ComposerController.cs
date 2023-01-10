@@ -58,7 +58,7 @@ namespace GroupProject.WebAPI.Controllers
         }
         
         [HttpDelete("{noteId:int}")]
-        public async Task<IActionResult> DeleteComposer([FromRoute] int composerId)
+        public async Task<IActionResult> DeleteComposer([FromRoute] int composerId) //*it'd be cool to pass in First and Last name so return string could say their name instead of arbitrary ID.
         {
             return await _composerService.DeleteComposerAsync(composerId)
                 ? Ok($"Composer Entry {composerId} was deleted successfully.")
