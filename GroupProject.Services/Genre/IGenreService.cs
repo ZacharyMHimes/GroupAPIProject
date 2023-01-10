@@ -9,7 +9,7 @@ namespace GroupProject.Services.Genre
     public interface IGenreService
     {
         Task<bool> CreateGenreAsync(GenreRegister request);
-        Task<GenreDetail> GetGenreByIdAsync(int Id);
         Task<bool> DeleteGenreAsync(int Id);
+        Task<bool> UpdateGenreAsync(GenreUpdate request);
     }
 }
