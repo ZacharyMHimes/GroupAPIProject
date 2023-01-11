@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Data;
+using GroupProject.Models.CauseOfDeath;
 
 namespace GroupProject.Services.CauseOfDeath
 {
@@ -20,7 +21,15 @@ namespace GroupProject.Services.CauseOfDeath
 
         public async Task<bool> CreateCauseOfDeathAsync(CauseCreate request)
         {
+            var causeEntity = new CauseOfDeathEntity
+            {
+                Id = _causeId,
+                CauseOfDeath = request.CauseOfDeath
+            };
 
+            _dbContext.CausesOfDeath.Add(causeEntity);
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
+            return numberOfChanges == 1;
         }
 
     //todo GetAll
@@ -50,5 +59,9 @@ namespace GroupProject.Services.CauseOfDeath
             
         }
 
+        public Task<bool> CreateCauseOfDeathAsync(CauseCreate request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

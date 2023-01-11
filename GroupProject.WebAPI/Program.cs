@@ -1,4 +1,5 @@
 using GroupProject.Data;
+using GroupProject.Services.CauseOfDeath;
 using GroupProject.Services.Composer;
 using GroupProject.Services.Genre;
 using GroupProject.Services.Period;
@@ -21,6 +22,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IComposerService, ComposerService>();
+builder.Services.AddScoped<ICauseOfDeathService, CauseOfDeathService>();
 builder.Services.AddScoped<IPeriodService, PeriodService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 
