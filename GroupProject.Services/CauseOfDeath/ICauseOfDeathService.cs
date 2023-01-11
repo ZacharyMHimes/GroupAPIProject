@@ -9,7 +9,7 @@ namespace GroupProject.Services.CauseOfDeath
     public interface ICauseOfDeathService
     {
     Task<bool> CreateCauseOfDeathAsync(CauseCreate request);
-    Task<IEnumerable<CauseListItem>> GetAllCausesAsync(CauseListItem request);
+    Task<IEnumerable<CauseListItem>> GetAllCausesAsync();
     Task<CauseModel> GetCauseById(int causeId);
     Task<CauseModel> UpdateCause(int causeId);
     Task<bool> DeleteCause(int causeId);

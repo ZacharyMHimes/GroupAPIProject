@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Data;
 using GroupProject.Models.CauseOfDeath;
+using Microsoft.EntityFrameworkCore;
 
 namespace GroupProject.Services.CauseOfDeath
 {
@@ -34,9 +35,18 @@ namespace GroupProject.Services.CauseOfDeath
 
     //todo GetAll
 
-        public async Task<IEnumerable<CauseListItem>> GetAllCausesAsync(CauseListItem request)
+        public async Task<IEnumerable<CauseListItem>> GetAllCausesAsync()
         {
+            var causes = await _dbContext.CausesOfDeath
+                .Where(entity => entity.Id ==_causeId)
+                .Select(entity => new CauseListItem
+                    {
+                        Id = entity.Id,
+                        CauseOfDeath = entity.CauseOfDeath
+                    })
+                    .ToListAsync();
 
+            return causes;
         }
     //todo GetByID
 
