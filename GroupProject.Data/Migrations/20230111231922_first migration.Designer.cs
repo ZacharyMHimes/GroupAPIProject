@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GroupProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230111020527_first migration")]
+    [Migration("20230111231922_first migration")]
     partial class firstmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,7 +73,7 @@ namespace GroupProject.Data.Migrations
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CauseOfDeathId")
+                    b.Property<int?>("CauseOfDeathId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DeathDate")
@@ -103,21 +103,6 @@ namespace GroupProject.Data.Migrations
                     b.ToTable("Composers");
                 });
 
-            modelBuilder.Entity("ComposerEntityPeriodEntity", b =>
-                {
-                    b.Property<int>("ComposersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PeriodsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ComposersId", "PeriodsId");
-
-                    b.HasIndex("PeriodsId");
-
-                    b.ToTable("ComposerEntityPeriodEntity");
-                });
-
             modelBuilder.Entity("CompositionEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -132,13 +117,13 @@ namespace GroupProject.Data.Migrations
                     b.Property<int>("DitterDorfs")
                         .HasColumnType("int");
 
-                    b.Property<int>("GenreId")
+                    b.Property<int?>("GenreId")
                         .HasColumnType("int");
 
                     b.Property<string>("OpusNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PeriodId")
+                    b.Property<int?>("PeriodId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -168,6 +153,7 @@ namespace GroupProject.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("GenreName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -228,6 +214,9 @@ namespace GroupProject.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("ComposerEntityId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("EndYear")
                         .HasColumnType("datetime2");
 
@@ -240,6 +229,8 @@ namespace GroupProject.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ComposerEntityId");
+
                     b.ToTable("Periods");
                 });
 
@@ -247,26 +238,9 @@ namespace GroupProject.Data.Migrations
                 {
                     b.HasOne("CauseOfDeathEntity", "CauseOfDeath")
                         .WithMany("Composers")
-                        .HasForeignKey("CauseOfDeathId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CauseOfDeathId");
 
                     b.Navigation("CauseOfDeath");
-                });
-
-            modelBuilder.Entity("ComposerEntityPeriodEntity", b =>
-                {
-                    b.HasOne("ComposerEntity", null)
-                        .WithMany()
-                        .HasForeignKey("ComposersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PeriodEntity", null)
-                        .WithMany()
-                        .HasForeignKey("PeriodsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("CompositionEntity", b =>
@@ -279,15 +253,11 @@ namespace GroupProject.Data.Migrations
 
                     b.HasOne("GenreEntity", "Genre")
                         .WithMany()
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GenreId");
 
                     b.HasOne("PeriodEntity", "Period")
-                        .WithMany()
-                        .HasForeignKey("PeriodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Compositions")
+                        .HasForeignKey("PeriodId");
 
                     b.Navigation("Composer");
 
@@ -322,6 +292,13 @@ namespace GroupProject.Data.Migrations
                         .HasForeignKey("CompositionEntityId");
                 });
 
+            modelBuilder.Entity("PeriodEntity", b =>
+                {
+                    b.HasOne("ComposerEntity", null)
+                        .WithMany("Periods")
+                        .HasForeignKey("ComposerEntityId");
+                });
+
             modelBuilder.Entity("CauseOfDeathEntity", b =>
                 {
                     b.Navigation("Composers");
@@ -330,11 +307,18 @@ namespace GroupProject.Data.Migrations
             modelBuilder.Entity("ComposerEntity", b =>
                 {
                     b.Navigation("Compositions");
+
+                    b.Navigation("Periods");
                 });
 
             modelBuilder.Entity("CompositionEntity", b =>
                 {
                     b.Navigation("Instrumentation");
+                });
+
+            modelBuilder.Entity("PeriodEntity", b =>
+                {
+                    b.Navigation("Compositions");
                 });
 #pragma warning restore 612, 618
         }

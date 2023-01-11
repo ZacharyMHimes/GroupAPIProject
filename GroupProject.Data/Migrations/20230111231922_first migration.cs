@@ -42,26 +42,11 @@ namespace GroupProject.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GenreName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    GenreName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genres", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Periods",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartYear = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndYear = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Periods", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,7 +62,7 @@ namespace GroupProject.Data.Migrations
                     DeathDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     SexyQuotientUpVotes = table.Column<int>(type: "int", nullable: true),
                     SexyQuotientTotalVotes = table.Column<int>(type: "int", nullable: true),
-                    CauseOfDeathId = table.Column<int>(type: "int", nullable: false)
+                    CauseOfDeathId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -86,32 +71,28 @@ namespace GroupProject.Data.Migrations
                         name: "FK_Composers_CausesOfDeath_CauseOfDeathId",
                         column: x => x.CauseOfDeathId,
                         principalTable: "CausesOfDeath",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "ComposerEntityPeriodEntity",
+                name: "Periods",
                 columns: table => new
                 {
-                    ComposersId = table.Column<int>(type: "int", nullable: false),
-                    PeriodsId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartYear = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndYear = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ComposerEntityId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ComposerEntityPeriodEntity", x => new { x.ComposersId, x.PeriodsId });
+                    table.PrimaryKey("PK_Periods", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ComposerEntityPeriodEntity_Composers_ComposersId",
-                        column: x => x.ComposersId,
+                        name: "FK_Periods_Composers_ComposerEntityId",
+                        column: x => x.ComposerEntityId,
                         principalTable: "Composers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ComposerEntityPeriodEntity_Periods_PeriodsId",
-                        column: x => x.PeriodsId,
-                        principalTable: "Periods",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -125,8 +106,8 @@ namespace GroupProject.Data.Migrations
                     TotalViews = table.Column<int>(type: "int", nullable: false),
                     DitterDorfs = table.Column<int>(type: "int", nullable: false),
                     ComposerId = table.Column<int>(type: "int", nullable: false),
-                    GenreId = table.Column<int>(type: "int", nullable: false),
-                    PeriodId = table.Column<int>(type: "int", nullable: false)
+                    GenreId = table.Column<int>(type: "int", nullable: true),
+                    PeriodId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -141,14 +122,12 @@ namespace GroupProject.Data.Migrations
                         name: "FK_Compositions_Genres_GenreId",
                         column: x => x.GenreId,
                         principalTable: "Genres",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Compositions_Periods_PeriodId",
                         column: x => x.PeriodId,
                         principalTable: "Periods",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -197,11 +176,6 @@ namespace GroupProject.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ComposerEntityPeriodEntity_PeriodsId",
-                table: "ComposerEntityPeriodEntity",
-                column: "PeriodsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Composers_CauseOfDeathId",
                 table: "Composers",
                 column: "CauseOfDeathId");
@@ -235,15 +209,17 @@ namespace GroupProject.Data.Migrations
                 name: "IX_Instruments_CompositionEntityId",
                 table: "Instruments",
                 column: "CompositionEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Periods_ComposerEntityId",
+                table: "Periods",
+                column: "ComposerEntityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Admins");
-
-            migrationBuilder.DropTable(
-                name: "ComposerEntityPeriodEntity");
 
             migrationBuilder.DropTable(
                 name: "Instrumentations");
@@ -255,13 +231,13 @@ namespace GroupProject.Data.Migrations
                 name: "Compositions");
 
             migrationBuilder.DropTable(
-                name: "Composers");
-
-            migrationBuilder.DropTable(
                 name: "Genres");
 
             migrationBuilder.DropTable(
                 name: "Periods");
+
+            migrationBuilder.DropTable(
+                name: "Composers");
 
             migrationBuilder.DropTable(
                 name: "CausesOfDeath");
