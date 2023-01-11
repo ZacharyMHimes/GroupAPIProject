@@ -8,7 +8,7 @@ using System.Threading.Tasks;
     {
         [Key]
         public int Id {get; set;}
-
         [Required]
-        public string Cause {get; set;}
+        public string CauseOfDeath {get; set;}
+        public List<ComposerEntity?> Composers {get; set;}
     }
