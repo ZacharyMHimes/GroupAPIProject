@@ -11,8 +11,7 @@ namespace GroupProject.Services.Period
 public class PeriodService : IPeriodService
     {
     private readonly ApplicationDbContext _context;
-    private ApplicationDbContext DbContext;
-    
+    private ApplicationDbContext DbContext; //* ? -Zach
 
     public PeriodService(ApplicationDbContext context)
     {

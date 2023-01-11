@@ -13,7 +13,7 @@ namespace GroupProject.Models.Period
         [MaxLength(100, ErrorMessage = "{0} must contain no more than {1} characters.")]
         public string Name { get; set; }
         [Required]
-        public DateOnly StartYear { get; set; }
+        public DateTime StartYear { get; set; }
         
     }
 }
