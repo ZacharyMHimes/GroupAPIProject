@@ -30,8 +30,6 @@ namespace GroupProject.WebAPI.Controllers
                 return BadRequest("Genre could not be added to catalog.");
             }
 
-        //todo - GetAll and GetById
-
         [HttpGet]
         public async Task<IActionResult> GetAllGenres()
             {
