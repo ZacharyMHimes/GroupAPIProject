@@ -9,13 +9,14 @@ using System.Threading.Tasks;
     {
         [Key]
         public int Id {get; set;}
-
         [Required]
         public string Name {get; set;}
-
         [Required]
         public DateTime StartYear {get; set;}
 
         public DateTime? EndYear {get; set;}
-        public List<ComposerEntity> Composers {get; set;}
+        public List<CompositionEntity>? Compositions {get; set;}
+
+
+
     }
