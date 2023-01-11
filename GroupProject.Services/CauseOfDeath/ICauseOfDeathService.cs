@@ -13,6 +13,6 @@ namespace GroupProject.Services.CauseOfDeath
     Task<CauseModel> GetCauseIdAsync(int causeId);
     Task<CauseModel> UpdateCauseAsync(int causeId);
     Task<bool> DeleteCauseAsync(int causeId);
-
+        Task<bool> UpdateCauseAsync(CauseModel model);
     }
 }

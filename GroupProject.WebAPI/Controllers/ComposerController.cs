@@ -37,7 +37,7 @@ namespace GroupProject.WebAPI.Controllers
                 return Ok();
             }
 
-        [HttpGet("{noteId:int}")]
+        [HttpGet("{composerId:int}")]
         public async Task<IActionResult> GetComposerById([FromRoute] int composerId)
         {
             var detail = await _composerService.GetComposerIdAsync(composerId);
@@ -57,7 +57,7 @@ namespace GroupProject.WebAPI.Controllers
                 : BadRequest("Composer entry could not be updated.");
         }
         
-        [HttpDelete("{noteId:int}")]
+        [HttpDelete("{composerId:int} {firstName:string} {lastName:string}")]
         public async Task<IActionResult> DeleteComposer([FromRoute] int composerId, string firstName, string lastName) //*it'd be cool to pass in First and Last name so return string could say their name instead of arbitrary ID.
         {
             return await _composerService.DeleteComposerAsync(composerId)
