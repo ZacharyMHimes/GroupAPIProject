@@ -18,8 +18,7 @@ namespace GroupProject.Services.CauseOfDeath
             _dbContext = dbContext;
         }
 
-    //todo Create
-
+    // Create
         public async Task<bool> CreateCauseOfDeathAsync(CauseCreate request)
         {
             var causeEntity = new CauseOfDeathEntity
@@ -33,7 +32,7 @@ namespace GroupProject.Services.CauseOfDeath
             return numberOfChanges == 1;
         }
 
-    //todo GetAll
+    // GetAll
 
         public async Task<IEnumerable<CauseListItem>> GetAllCausesAsync()
         {
@@ -48,28 +47,49 @@ namespace GroupProject.Services.CauseOfDeath
 
             return causes;
         }
-    //todo GetByID
+    // GetByID
 
-        public async Task<CauseModel> GetCauseById(int causeId)
+        public async Task<CauseModel?> GetCauseIdAsync(int causeId)
         {
+                var causeEntity = await _dbContext.CausesOfDeath.FirstOrDefaultAsync(e =>
+                e.Id == causeId && e.Id == _causeId);
+                return causeEntity is null ? null : new CauseModel
+                    {
+                        Id = causeEntity.Id,
+                        CauseOfDeath = causeEntity.CauseOfDeath 
+                    };
 
         }
 
-    //todo Update
+    //todo Get List of Composers by death Id.
 
-        public async Task<CauseModel> UpdateCause(int causeId)
+    // Update
+
+        public async Task<bool> UpdateCauseAsync(CauseModel request)
         {
+            var causeEntity = await _dbContext.CausesOfDeath.FindAsync(request.Id);
+            if(causeEntity?.Id != _causeId)
+                return false;
 
+            causeEntity.Id = request.Id;
+            causeEntity.CauseOfDeath = request.CauseOfDeath;
+
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
+            return numberOfChanges == 1;
         }
 
-    //todo Delete
+    // Delete
 
-        public async Task<bool> DeleteCause(int causeId)
+        public async Task<bool> DeleteCauseAsync(int causeId)
         {
-            
+            var causeEntity = await _dbContext.CausesOfDeath.FindAsync(causeId);
+            if(causeEntity?.Id != _causeId)
+                return false;
+            _dbContext.CausesOfDeath.Remove(causeEntity);
+            return await _dbContext.SaveChangesAsync() == 1;
         }
 
-        public Task<bool> CreateCauseOfDeathAsync(CauseCreate request)
+        public Task<CauseModel> UpdateCauseAsync(int causeId)
         {
             throw new NotImplementedException();
         }
