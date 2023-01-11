@@ -23,5 +23,15 @@ namespace GroupProject.Data
         public DbSet<InstrumentationEntity> Instrumentations {get; set;}
         public DbSet<InstrumentEntity> Instruments {get;set;}
         public DbSet<PeriodEntity> Periods {get;set;}
+
+        public void Add(PeriodEntity periodEntity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

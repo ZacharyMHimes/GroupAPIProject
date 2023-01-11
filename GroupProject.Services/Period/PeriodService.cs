@@ -4,13 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Data;
 using GroupProject.Models.Period;
+using GroupProject.Services.Period;
 
 namespace GroupProject.Services.Period
-{
-    public class PeriodService : IPeriodService
+
+public class PeriodService : IPeriodService
     {
     private readonly ApplicationDbContext _context;
     private ApplicationDbContext DbContext;
+    
 
     public PeriodService(ApplicationDbContext context)
     {
@@ -30,12 +32,41 @@ namespace GroupProject.Services.Period
             return numberOfChanges == 1;
         }
 
-        public Task<PeriodDetail> GetPeriodAsync(int periodId)
+        public async Task<bool> UpdatePeriodAsync(PeriodUpdate request)
         {
-            throw new NotImplementedException();
+            var periodEntity = await _context.Periods.FindAsync(request.Id);
+            if(periodEntity?.Id != _periodId)
+                return false;
+            periodEntity.PeriodName = request.PeriodName;
+
+            var numberOfChanges = await _context.SaveChangesAsync();
+            return numberOfChanges == 1;
         }
 
-        public async Task<PeriodDetail?> GetPeriodIdAsync(int periodId)
+            public async Task<bool> DeletePeriodAsync(int Id)
+        {
+            var periodEntity = await _context.Periods.FindAsync(Id);
+            if (periodEntity is null)
+                return false;
+            _context.Periods.Remove(periodEntity);
+            var numberOfChanges = await _context.SaveChangesAsync();
+            return (numberOfChanges == 1);
+        }
+
+            public async Task<IEnumerable<PeriodListItem>> GetAllPeriodAsync(int periodId)
+        {
+            var periods = await _dbContext.Periods
+                .Where(entity => entity.Id == _periodId)
+                .Select(entity => new PeriodListItem
+                    {
+                        
+                    })
+                    .ToListAsync();
+
+            return periods;
+        }
+
+            public async Task<PeriodDetail?> GetPeriodIdAsync(int periodId)
         {
             var periodEntity = await DbContext.Periods.FindAsync(periodId);
 
@@ -48,9 +79,12 @@ namespace GroupProject.Services.Period
             };
         }
 
+    public Task<PeriodDetail> GetPeriodAsync(int periodId)
+    {
+        throw new NotImplementedException();
+    }
+}
+
         //todo GetAll Periods
         //todo Update Period
         //todo Delete Period
-
-    }
-}

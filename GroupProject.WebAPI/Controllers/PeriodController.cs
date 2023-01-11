@@ -31,7 +31,7 @@ namespace GroupProject.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllPeriods()
+        public async Task<IActionResult> GetAllPeriod()
         {
             return Ok();
         }
