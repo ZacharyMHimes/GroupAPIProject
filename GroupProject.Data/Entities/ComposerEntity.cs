@@ -13,8 +13,8 @@ using System.Threading.Tasks;
         [Required]
         public string LastName {get; set;}
         public string? Nationality {get; set;}
-        public DateOnly? BirthDate {get; set;}
-        public DateOnly? DeathDate {get; set;}
+        public DateTime? BirthDate {get; set;}
+        public DateTime? DeathDate {get; set;}
         
         public int? SexyQuotientUpVotes {get;set;} = 0;
         public int? SexyQuotientTotalVotes {get; set;} = 0;

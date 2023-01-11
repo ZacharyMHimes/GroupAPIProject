@@ -9,7 +9,7 @@ namespace GroupProject.Models.Period
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public DateOnly StartYear { get; set; }
-        public DateOnly? EndYear { get; set; }
+        public DateTime StartYear { get; set; }
+        public DateTime? EndYear { get; set; }
     }
 }

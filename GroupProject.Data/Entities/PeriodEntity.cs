@@ -14,8 +14,8 @@ using System.Threading.Tasks;
         public string Name {get; set;}
 
         [Required]
-        public DateOnly StartYear {get; set;}
+        public DateTime StartYear {get; set;}
 
-        public DateOnly? EndYear {get; set;}
+        public DateTime? EndYear {get; set;}
         public List<ComposerEntity> Composers {get; set;}
     }
