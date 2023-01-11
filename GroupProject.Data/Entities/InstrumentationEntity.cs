@@ -8,10 +8,7 @@ using System.Threading.Tasks;
     {
         [Key]
         public int Id {get; set;}
-        [Required]
-        public int InstrumentId {get; set;}
-        [Required]
-        public int CompositionId {get; set;}
+        
         public InstrumentEntity Instrument {get; set;}
         public CompositionEntity Composition {get; set;}
     }

@@ -11,12 +11,7 @@ using System.Threading.Tasks;
         
         public string Title {get; set;}
         public string? OpusNumber {get; set;}
-        [Required]
-        public int PeriodId {get; set;}
-        [Required]
-        public int GenreId {get;set;}
-        [Required]
-        public int ComposerId {get;set;}
+        
         public int TotalViews {get; set;}
         public int DitterDorfs {get; set;}
 

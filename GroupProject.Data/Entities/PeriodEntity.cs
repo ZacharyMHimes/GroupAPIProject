@@ -17,4 +17,5 @@ using System.Threading.Tasks;
         public DateOnly StartYear {get; set;}
 
         public DateOnly? EndYear {get; set;}
+        public List<ComposerEntity> Composers {get; set;}
     }
