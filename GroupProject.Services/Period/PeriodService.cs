@@ -12,7 +12,6 @@ public class PeriodService : IPeriodService
     {
     private readonly ApplicationDbContext _context;
     private ApplicationDbContext DbContext;
-    
 
     public PeriodService(ApplicationDbContext context)
     {
@@ -50,20 +49,7 @@ public class PeriodService : IPeriodService
                 return false;
             _context.Periods.Remove(periodEntity);
             var numberOfChanges = await _context.SaveChangesAsync();
-            return (numberOfChanges == 1);
-        }
-
-            public async Task<IEnumerable<PeriodListItem>> GetAllPeriodAsync(int periodId)
-        {
-            var periods = await _dbContext.Periods
-                .Where(entity => entity.Id == _periodId)
-                .Select(entity => new PeriodListItem
-                    {
-                        
-                    })
-                    .ToListAsync();
-
-            return periods;
+            return numberOfChanges == 1;
         }
 
             public async Task<PeriodDetail?> GetPeriodIdAsync(int periodId)
@@ -79,11 +65,19 @@ public class PeriodService : IPeriodService
             };
         }
 
-    public Task<PeriodDetail> GetPeriodAsync(int periodId)
-    {
-        throw new NotImplementedException();
+            public async Task<IEnumerable<PeriodEntityListItem>> GetAllPeriodAsync()
+        {
+            var periods = await _dbContext.Periods
+                .Where(entity => entity.Id == _periodId)
+                .Select(entity => new PeriodEntityListItem
+                    {
+                        
+                    })
+                    .ToListAsync();
+
+            return periods;
+        }
     }
-}
 
         //todo GetAll Periods
         //todo Update Period
