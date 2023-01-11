@@ -16,5 +16,4 @@ using System.Threading.Tasks;
 
         public DateTime? EndYear {get; set;}
         public List<CompositionEntity>? Compositions {get; set;}
-        public List<ComposerEntity>? Composers {get; set;}
     }

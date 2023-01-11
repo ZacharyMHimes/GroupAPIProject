@@ -50,6 +50,21 @@ namespace GroupProject.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Periods",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartYear = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndYear = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Periods", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Composers",
                 columns: table => new
                 {
@@ -71,27 +86,6 @@ namespace GroupProject.Data.Migrations
                         name: "FK_Composers_CausesOfDeath_CauseOfDeathId",
                         column: x => x.CauseOfDeathId,
                         principalTable: "CausesOfDeath",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Periods",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartYear = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndYear = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ComposerEntityId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Periods", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Periods_Composers_ComposerEntityId",
-                        column: x => x.ComposerEntityId,
-                        principalTable: "Composers",
                         principalColumn: "Id");
                 });
 
@@ -209,11 +203,6 @@ namespace GroupProject.Data.Migrations
                 name: "IX_Instruments_CompositionEntityId",
                 table: "Instruments",
                 column: "CompositionEntityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Periods_ComposerEntityId",
-                table: "Periods",
-                column: "ComposerEntityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -231,13 +220,13 @@ namespace GroupProject.Data.Migrations
                 name: "Compositions");
 
             migrationBuilder.DropTable(
+                name: "Composers");
+
+            migrationBuilder.DropTable(
                 name: "Genres");
 
             migrationBuilder.DropTable(
                 name: "Periods");
-
-            migrationBuilder.DropTable(
-                name: "Composers");
 
             migrationBuilder.DropTable(
                 name: "CausesOfDeath");

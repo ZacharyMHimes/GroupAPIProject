@@ -212,9 +212,6 @@ namespace GroupProject.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("ComposerEntityId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("EndYear")
                         .HasColumnType("datetime2");
 
@@ -226,8 +223,6 @@ namespace GroupProject.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ComposerEntityId");
 
                     b.ToTable("Periods");
                 });
@@ -290,13 +285,6 @@ namespace GroupProject.Data.Migrations
                         .HasForeignKey("CompositionEntityId");
                 });
 
-            modelBuilder.Entity("PeriodEntity", b =>
-                {
-                    b.HasOne("ComposerEntity", null)
-                        .WithMany("Periods")
-                        .HasForeignKey("ComposerEntityId");
-                });
-
             modelBuilder.Entity("CauseOfDeathEntity", b =>
                 {
                     b.Navigation("Composers");
@@ -305,8 +293,6 @@ namespace GroupProject.Data.Migrations
             modelBuilder.Entity("ComposerEntity", b =>
                 {
                     b.Navigation("Compositions");
-
-                    b.Navigation("Periods");
                 });
 
             modelBuilder.Entity("CompositionEntity", b =>
