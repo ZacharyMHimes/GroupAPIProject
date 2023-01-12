@@ -4,16 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Data;
 using GroupProject.Models.Instrumentation;
+using Microsoft.EntityFrameworkCore;
 
 namespace GroupProject.Services.Instrumentation
-
+{
     public class InstrumentationService : IInstrumentationService
     {
-        private readonly ApplicationDbContext _context;
-        private ApplicationDbContext DbContext;
+        private readonly ApplicationDbContext _dbContext;
         public InstrumentationService(ApplicationDbContext context)
         {
-            DbContext = context
+            _dbContext = context;
         }
         
         public async Task<bool> CreateInstrumentationAsync(InstrumentationCreate request)
@@ -23,26 +23,25 @@ namespace GroupProject.Services.Instrumentation
 
             };
 
-            DbContext.Add(instrumentationEntity);
+            _dbContext.Add(instrumentationEntity);
 
-            var numberOfChanges = await DbContext.SaveChangesAsync();
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
         }
 
         public async Task<bool> DeleteInstrumentationAsync(int instrumentationId)
         {
-            var instrumentationEntity = await _context.Instrumentations.FindAsync(instrumentationId);
+            var instrumentationEntity = await _dbContext.Instrumentations.FindAsync(instrumentationId);
             if (instrumentationEntity is null)
             return false;
-            _context.Instrumentations.Remove(instrumentationEntity);
-            var numberOfChanges = await _context.SaveChangesAsync();
+            _dbContext.Instrumentations.Remove(instrumentationEntity);
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
         }
 
         public async Task<IEnumerable<InstrumentationListItem>> GetAllInstrumentationAsync()
         {
-            var instrumentations = await _context.Instrumentations
-            .Where(entity => entity.Id == _instrumentationId)
+            var instrumentations = await _dbContext.Instrumentations
             .Select(entity => new InstrumentationListItem
             {
 
@@ -52,9 +51,9 @@ namespace GroupProject.Services.Instrumentation
             return instrumentations;
         }
 
-        public async Task<InstrumentationDetail> GetInstrumentationIdAsync(int instrumentationId)
+        public async Task<InstrumentationDetail?> GetInstrumentationIdAsync(int instrumentationId)
         {
-            var instrumentationEntity = await DbContext.Instrumentations.FindAsync(instrumentationId);
+            var instrumentationEntity = await _dbContext.Instrumentations.FindAsync(instrumentationId);
 
             return (instrumentationEntity is null) ? null : new InstrumentationDetail
             {
@@ -64,11 +63,10 @@ namespace GroupProject.Services.Instrumentation
 
         public async Task<bool> UpdateInstrumentationAsync(InstrumentationUpdate request)
         {
-            var instrumentationEntity = await _context.Instrumentations.FindAsync(request.Id);
-            if(instrumentationEntity?.Id != _instrumentationId)
-            return false;
+            var instrumentationEntity = await _dbContext.Instrumentations.FindAsync(request.Id);
             
-            var numberOfChanges = await _context.SaveChangesAsync();
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
         }
     }
+}
