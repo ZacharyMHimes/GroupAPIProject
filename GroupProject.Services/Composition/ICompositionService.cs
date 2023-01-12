@@ -8,6 +8,10 @@ namespace GroupProject.Services.Composition
 {
     public interface ICompositionService
     {
-        public Task<CompositionDetail?> GetCompositionByIdAsync(int Id);
+        Task<CompositionDetail?> GetCompositionByIdAsync(int Id);
+        Task<IEnumerable<CompositionListItem>> GetAllCompositionsAsync();
+        Task<bool> UpdateCompositionAsync(CompositionUpdate request);
+        Task<bool> DeleteCompositionAsync(int Id);   
+
     }
 }
