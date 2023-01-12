@@ -12,8 +12,6 @@ namespace GroupProject.Services.Composer
     public class ComposerService : IComposerService
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly int _composerId;
-
         public ComposerService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -23,7 +21,6 @@ namespace GroupProject.Services.Composer
         {
             var composerEntity = new ComposerEntity
             {
-                Id = _composerId,  //* how is the Key Id generated? From the front end?
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Nationality = request.Nationality,
@@ -42,7 +39,6 @@ namespace GroupProject.Services.Composer
         public async Task<IEnumerable<ComposerListItem>> GetAllComposersAsync()
         {
             var composers = await _dbContext.Composers
-                .Where(entity => entity.Id == _composerId)
                 .Select(entity => new ComposerListItem
                     {
                         Id = entity.Id,
@@ -56,8 +52,7 @@ namespace GroupProject.Services.Composer
 
         public async Task<ComposerDetail?> GetComposerIdAsync(int composerId)
         {
-                var composerEntity = await _dbContext.Composers.FirstOrDefaultAsync(e =>
-                e.Id == composerId && e.Id == _composerId);
+                var composerEntity = await _dbContext.Composers.FirstOrDefaultAsync(e =>e.Id == composerId);
                 return composerEntity is null ? null : new ComposerDetail
                     {
                         Id = composerEntity.Id,
@@ -78,8 +73,6 @@ namespace GroupProject.Services.Composer
         public async Task<bool> UpdateComposerAsync(ComposerUpdate request)
         {
             var composerEntity = await _dbContext.Composers.FindAsync(request.Id);
-            if(composerEntity?.Id != _composerId)
-                return false;
             composerEntity.FirstName = request.FirstName;
             composerEntity.LastName = request.LastName;
             composerEntity.Nationality = request.Nationality;
@@ -94,8 +87,6 @@ namespace GroupProject.Services.Composer
         public async Task<bool> DeleteComposerAsync(int composerId)
         {
             var composerEntity = await _dbContext.Composers.FindAsync(composerId);
-            if(composerEntity?.Id != _composerId)
-                return false;
             _dbContext.Composers.Remove(composerEntity);
             return await _dbContext.SaveChangesAsync() == 1;
         }
