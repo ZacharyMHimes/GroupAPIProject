@@ -17,5 +17,15 @@ namespace GroupProject.WebAPI.Controllers
             _compositionService = compositionService;
         }
         
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetCompositionById([FromRoute] int Id)
+        {
+            var response = await _compositionService.GetCompositionByIdAsync(Id);
+            if (response is null)
+                return NotFound();
+            
+            return Ok(response);
+        }
     }
 }
