@@ -9,6 +9,9 @@ namespace GroupProject.Services.Period
     public interface IPeriodService
     {
         Task<bool> CreatePeriodAsync(PeriodCreate periodEntity);
-        Task<PeriodDetail> GetPeriodAsync(int periodId);
+        Task<bool> DeletePeriodAsync(int periodId);
+        Task<IEnumerable<PeriodEntityListItem>> GetAllPeriodAsync();
+        Task<PeriodDetail> GetPeriodIdAsync(int periodId);
+        Task<bool> UpdatePeriodAsync(PeriodUpdate request);
     }
 }

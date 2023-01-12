@@ -33,16 +33,36 @@ namespace GroupProject.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllPeriod()
         {
+            var notes = await _periodServices.GetAllPeriodAsync();
             return Ok();
         }
 
         [HttpGet("{periodId:int}")]
         public async Task<IActionResult> GetPeriodById([FromRoute] int periodId)
         {
-            var detail = await _periodServices.GetPeriodAsync(periodId);
+            var detail = await _periodServices.GetPeriodIdAsync(periodId);
             return detail is not null
             ? Ok(detail)
             : NotFound();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdatePeriodById([FromBody] PeriodUpdate request)
+        {
+            if(!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+            return await _periodServices.UpdatePeriodAsync(request)
+            ? Ok("Period entry updated successfully.")
+            : BadRequest("Period entry could not be updated");
+        }
+
+        [HttpDelete("{periodId:int}")]
+        public async Task<IActionResult> DeletePeriod([FromRoute] int periodId)
+        {
+            return await _periodServices.DeletePeriodAsync(periodId)
+            ? Ok($"Period entry deleted successfully.")
+            : BadRequest($"Period entry could not be deleted.");
         }
     }
 }

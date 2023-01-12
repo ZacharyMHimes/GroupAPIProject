@@ -5,17 +5,18 @@ using System.Threading.Tasks;
 using GroupProject.Data;
 using GroupProject.Models.Period;
 using GroupProject.Services.Period;
+using Microsoft.EntityFrameworkCore;
 
 namespace GroupProject.Services.Period
-
+{
 public class PeriodService : IPeriodService
     {
-    private readonly ApplicationDbContext _context;
-    private ApplicationDbContext DbContext; //* ? -Zach
+
+    private readonly ApplicationDbContext _dbContext;
 
     public PeriodService(ApplicationDbContext context)
     {
-        DbContext = context;
+        _dbContext = context;
     }
         public async Task<bool> CreatePeriodAsync(PeriodCreate request)
         {
@@ -25,49 +26,34 @@ public class PeriodService : IPeriodService
                 StartYear = request.StartYear,
             };
 
-            DbContext.Add(periodEntity);
+            _dbContext.Add(periodEntity);
 
-            var numberOfChanges = await DbContext.SaveChangesAsync();
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
         }
 
         public async Task<bool> UpdatePeriodAsync(PeriodUpdate request)
         {
-            var periodEntity = await _context.Periods.FindAsync(request.Id);
-            if(periodEntity?.Id != _periodId)
-                return false;
-            periodEntity.PeriodName = request.PeriodName;
+            var periodEntity = await _dbContext.Periods.FindAsync(request.Id);
+            periodEntity.Name = request.Name;
 
-            var numberOfChanges = await _context.SaveChangesAsync();
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
         }
 
             public async Task<bool> DeletePeriodAsync(int Id)
         {
-            var periodEntity = await _context.Periods.FindAsync(Id);
+            var periodEntity = await _dbContext.Periods.FindAsync(Id);
             if (periodEntity is null)
                 return false;
-            _context.Periods.Remove(periodEntity);
-            var numberOfChanges = await _context.SaveChangesAsync();
-            return (numberOfChanges == 1);
-        }
-
-            public async Task<IEnumerable<PeriodListItem>> GetAllPeriodAsync(int periodId)
-        {
-            var periods = await _dbContext.Periods
-                .Where(entity => entity.Id == _periodId)
-                .Select(entity => new PeriodListItem
-                    {
-                        
-                    })
-                    .ToListAsync();
-
-            return periods;
+            _dbContext.Periods.Remove(periodEntity);
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
+            return numberOfChanges == 1;
         }
 
             public async Task<PeriodDetail?> GetPeriodIdAsync(int periodId)
         {
-            var periodEntity = await DbContext.Periods.FindAsync(periodId);
+            var periodEntity = await _dbContext.Periods.FindAsync(periodId);
 
             return (periodEntity is null) ? null : new PeriodDetail
             {
@@ -78,9 +64,17 @@ public class PeriodService : IPeriodService
             };
         }
 
-    public Task<PeriodDetail> GetPeriodAsync(int periodId)
-    {
-        throw new NotImplementedException();
+            public async Task<IEnumerable<PeriodEntityListItem>> GetAllPeriodAsync()
+        {
+            var periods = await _dbContext.Periods
+                .Select(entity => new PeriodEntityListItem
+                    {
+                        
+                    })
+                    .ToListAsync();
+
+            return periods;
+        }
     }
 }
 
