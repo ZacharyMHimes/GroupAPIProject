@@ -8,6 +8,5 @@ using System.Threading.Tasks;
     {
         [Key]
         public int Id {get; set;}
-
-        public string? GenreName {get; set;}
+        public string GenreName {get; set;}
     }

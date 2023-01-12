@@ -22,8 +22,8 @@ namespace GroupProject.Models.Composer
             (100, ErrorMessage = "{0} must contain no more than {1} characters.")]
         public string LastName {get; set;}
         public string? Nationality {get; set;}
-        public DateOnly? BirthDate {get; set;}
-        public DateOnly? DeathDate {get; set;}
+        public DateTime? BirthDate {get; set;}
+        public DateTime? DeathDate {get; set;}
 
         //ComposerEntity Will inherit Cause of Death from Cause of Death create MVC
         public int? SexyQuotientUpVotes {get;set;} = 0;

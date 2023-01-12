@@ -16,8 +16,8 @@ using System.Threading.Tasks;
         public int DitterDorfs {get; set;}
 
         public ComposerEntity Composer {get; set;}
-        public GenreEntity Genre {get; set;}
-        public PeriodEntity Period {get; set;}
+        public GenreEntity? Genre {get; set;}
+        public PeriodEntity? Period {get; set;}
         
-        public List<InstrumentEntity> Instrumentation {get;set;}
+        public List<InstrumentEntity>? Instrumentation {get;set;}
     }
