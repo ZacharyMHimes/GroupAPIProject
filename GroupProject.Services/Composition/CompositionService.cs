@@ -6,6 +6,7 @@ using GroupProject.Data;
 using GroupProject.Models.Composition;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace GroupProject.Services.Composition
 {
     public class CompositionService : ICompositionService
@@ -16,7 +17,7 @@ namespace GroupProject.Services.Composition
             _dbContext = dbContext;
         }
 
-         public async Task<IEnumerable<CompositionListItem>> GetAllCompositionsAsync()
+        public async Task<IEnumerable<CompositionListItem>> GetAllCompositionsAsync()
         {
             var compositions = await _dbContext.Compositions
                 .Select(entity => new CompositionListItem
@@ -28,6 +29,27 @@ namespace GroupProject.Services.Composition
                     .ToListAsync();
 
             return compositions;
+        }
+
+        public async Task<bool> UpdateCompositionAsync(CompositionUpdate request)
+        {
+            var compositionEntity = await _dbContext.Compositions.FindAsync(request.Id);
+            compositionEntity.Id = request.Id;
+            compositionEntity.Title = request.Title;
+            compositionEntity.OpusNumber = request.OpusNumber;
+            compositionEntity.TotalViews = request.TotalViews;
+            compositionEntity.DitterDorfs = request.DitterDorfs;
+
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
+            return numberOfChanges == 1;
+
+        }
+        
+        public async Task<bool> DeleteCompositionAsync(int Id)
+        {
+            var compositionEntity = await _dbContext.Composers.FindAsync(Id);
+            _dbContext.Composers.Remove(compositionEntity);
+            return await _dbContext.SaveChangesAsync() == 1;
         }
 
     }

@@ -84,9 +84,9 @@ namespace GroupProject.Services.Composer
 
         }
 
-        public async Task<bool> DeleteComposerAsync(int composerId)
+        public async Task<bool> DeleteComposerAsync(int Id)
         {
-            var composerEntity = await _dbContext.Composers.FindAsync(composerId);
+            var composerEntity = await _dbContext.Composers.FindAsync(Id);
             _dbContext.Composers.Remove(composerEntity);
             return await _dbContext.SaveChangesAsync() == 1;
         }
