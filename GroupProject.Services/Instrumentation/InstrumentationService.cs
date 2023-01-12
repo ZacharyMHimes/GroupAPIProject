@@ -20,7 +20,9 @@ namespace GroupProject.Services.Instrumentation
         {
             var instrumentationEntity = new InstrumentationEntity
             {
-
+                Id = request.Id,
+                Instrument = request.Instrument,
+                CompositionId = request.CompositionId,
             };
 
             _dbContext.Add(instrumentationEntity);
