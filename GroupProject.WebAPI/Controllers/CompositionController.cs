@@ -18,6 +18,17 @@ namespace GroupProject.WebAPI.Controllers
             _compositionService = compositionService;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateComposition([FromBody] CompositionCreate request)
+        {
+            if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+            if (await _compositionService.CreateCompositionAsync(request))
+            return Ok("Composition entry created successfully.");
+
+            return BadRequest();
+            
         [HttpGet]
         public async Task<IActionResult> GetAllCompositions()
             {
