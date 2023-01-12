@@ -17,6 +17,13 @@ namespace GroupProject.WebAPI.Controllers
         {
             _compositionService = compositionService;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllCompositions()
+            {
+                var notes = await _compositionService.GetAllCompositionsAsync();
+                return Ok();
+            }
         
         [HttpPut]
         public async Task<IActionResult> UpdateComposerById([FromBody] CompositionUpdate request)
