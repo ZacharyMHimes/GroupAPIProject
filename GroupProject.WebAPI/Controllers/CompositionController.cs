@@ -28,6 +28,7 @@ namespace GroupProject.WebAPI.Controllers
             return Ok("Composition entry created successfully.");
 
             return BadRequest();
+        }
             
         [HttpGet]
         public async Task<IActionResult> GetAllCompositions()
@@ -66,6 +67,6 @@ namespace GroupProject.WebAPI.Controllers
                 ? Ok($"Composition: {Title} was deleted successfully.") 
                 : BadRequest($"Composition entry: {Title} could not be deleted.");
         }
-     }
+    }
 
 }
