@@ -37,10 +37,10 @@ namespace GroupProject.WebAPI.Controllers
                 return Ok();
             }
 
-        [HttpGet("{composerId:int}")]
-        public async Task<IActionResult> GetComposerById([FromRoute] int composerId)
+        [HttpGet("{Id:int}")]
+        public async Task<IActionResult> GetComposerById([FromRoute] int Id)
         {
-            var detail = await _composerService.GetComposerIdAsync(composerId);
+            var detail = await _composerService.GetComposerIdAsync(Id);
             return detail is not null
                 ? Ok(detail)
                 : NotFound();

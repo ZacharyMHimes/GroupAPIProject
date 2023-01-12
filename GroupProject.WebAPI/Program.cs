@@ -5,6 +5,7 @@ using GroupProject.Services.Genre;
 using GroupProject.Services.Period;
 using GroupProject.Services.Instrument;
 using Microsoft.EntityFrameworkCore;
+using GroupProject.Services.Composition;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ builder.Services.AddScoped<ICauseOfDeathService, CauseOfDeathService>();
 builder.Services.AddScoped<IPeriodService, PeriodService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IInstrumentService, InstrumentService>();
+builder.Services.AddScoped<ICompositionService, CompositionService>();
 
 var app = builder.Build();
 
