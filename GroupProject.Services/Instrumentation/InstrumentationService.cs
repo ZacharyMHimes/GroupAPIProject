@@ -20,9 +20,8 @@ namespace GroupProject.Services.Instrumentation
         {
             var instrumentationEntity = new InstrumentationEntity
             {
-                Id = request.Id,
-                Instrument = request.Instrument,
-                CompositionId = request.CompositionId,
+                Instrument = await _dbContext.Instruments.FindAsync(request.InstrumentId),
+                Composition = await _dbContext.Compositions.FindAsync(request.CompositionId),
             };
 
             _dbContext.Add(instrumentationEntity);

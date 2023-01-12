@@ -10,7 +10,7 @@ namespace GroupProject.Models.Instrumentation
     {
         [Required]
         [MinLength(1, ErrorMessage = "{0} must have at least {1} ")]
-        public string Instrument { get; set; }
+        public int InstrumentId { get; set; }
         public int CompositionId { get; set; }
     }
 }

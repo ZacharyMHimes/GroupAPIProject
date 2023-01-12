@@ -20,12 +20,14 @@ namespace GroupProject.Services.Composition
                 var compositionEntity = new CompositionEntity
                 {
                     Title = request.Title,
-                    ComposerId = request.ComposerId,
-                    GenreId = request.GenreId,
-                    PeriodId = request.PeriodId,
-                    Instruments = request.Instruments,
+                    Composer = await _dbContext.Composers.FindAsync(request.ComposerId),
+                    Genre = await _dbContext.Genres.FindAsync(request.GenreId),
+                    Period = await _dbContext.Periods.FindAsync(request.PeriodId),
+                    // Instruments = request.Instruments,
                 };
 
+                if(compositionEntity.Composer is null)
+                return false;
                 _dbContext.Add(compositionEntity);
 
                 var numberOfChanges = await _dbContext.SaveChangesAsync();
