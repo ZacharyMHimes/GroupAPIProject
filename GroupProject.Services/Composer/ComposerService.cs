@@ -78,6 +78,8 @@ namespace GroupProject.Services.Composer
             composerEntity.Nationality = request.Nationality;
             composerEntity.BirthDate = request.BirthDate;
             composerEntity.DeathDate = request.DeathDate;
+            composerEntity.SexyQuotientUpVotes = request.SexyQuotientUpVotes;
+            composerEntity.SexyQuotientTotalVotes = request.SexyQuotientTotalVotes;
 
             var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;

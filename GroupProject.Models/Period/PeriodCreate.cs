@@ -14,6 +14,6 @@ namespace GroupProject.Models.Period
         public string Name { get; set; }
         [Required]
         public DateTime StartYear { get; set; }
-        
+        public DateTime EndYear {get; set;}
     }
 }

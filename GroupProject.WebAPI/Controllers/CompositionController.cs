@@ -33,12 +33,12 @@ namespace GroupProject.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCompositions()
             {
-                var notes = await _compositionService.GetAllCompositionsAsync();
-                return Ok();
+                var compositions = await _compositionService.GetAllCompositionsAsync();
+                return Ok(compositions);
             }
             
         [HttpGet]
-        [Route("{id}")]
+        [Route("{Id:int}")]
         public async Task<IActionResult> GetCompositionById([FromRoute] int Id)
         {
             var response = await _compositionService.GetCompositionByIdAsync(Id);
@@ -60,7 +60,7 @@ namespace GroupProject.WebAPI.Controllers
         } 
 
 
-        [HttpDelete("{Id:int} {firstName:string} {lastName:string}")]
+        [HttpDelete("{Id:int} {firstName} {lastName}")]
         public async Task<IActionResult> DeleteComposer([FromRoute] int Id, string Title)
         {
             return await _compositionService.DeleteCompositionAsync(Id)

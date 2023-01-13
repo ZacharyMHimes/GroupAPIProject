@@ -11,33 +11,29 @@ namespace GroupProject.Services.Genre
 {
     public class GenreService : IGenreService
     {
-        private readonly ApplicationDbContext _context;
-        private readonly int _genreId;
-        private ApplicationDbContext DbContext;
+        private readonly ApplicationDbContext _dbContext;
 
         public GenreService(ApplicationDbContext context)
         {
-            DbContext = context;
+            _dbContext = context;
         }
 
         public async Task<bool> CreateGenreAsync(GenreCreate request)
         {
             var genreEntity = new GenreEntity
             {
-                Id = _genreId,
                 GenreName = request.GenreName
             };
 
-            DbContext.Add(genreEntity);
+            _dbContext.Add(genreEntity);
 
-            var numberOfChanges = await DbContext.SaveChangesAsync();
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
         }
 
         public async Task<IEnumerable<GenreListItem>> GetAllGenresAsync()
         {
-            var genres = await _context.Genres
-                .Where(entity => entity.Id == _genreId)
+            var genres = await _dbContext.Genres
                 .Select(entity => new GenreListItem
                     {
                         Id = entity.Id,
@@ -50,8 +46,8 @@ namespace GroupProject.Services.Genre
 
         public async Task<GenreDetail?> GetGenreIdAsync(int genreId)
         {
-                var genreEntity = await _context.Genres.FirstOrDefaultAsync(e =>
-                e.Id == genreId && e.Id == _genreId);
+                var genreEntity = await _dbContext.Genres.FirstOrDefaultAsync(e =>
+                e.Id == genreId);
                 return genreEntity is null ? null : new GenreDetail
                     {
                         Id = genreEntity.Id,
@@ -61,22 +57,20 @@ namespace GroupProject.Services.Genre
 
         public async Task<bool> UpdateGenreAsync(GenreUpdate request)
         {
-            var genreEntity = await _context.Genres.FindAsync(request.Id);
-            if(genreEntity?.Id != _genreId)
-                return false;
+            var genreEntity = await _dbContext.Genres.FindAsync(request.Id);
+            
             genreEntity.GenreName = request.GenreName;
 
-            var numberOfChanges = await _context.SaveChangesAsync();
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
         }
 
             public async Task<bool> DeleteGenreAsync(int Id)
         {
-            var genreEntity = await _context.Genres.FindAsync(Id);
-            if (genreEntity is null)
-                return false;
-            _context.Genres.Remove(genreEntity);
-            var numberOfChanges = await _context.SaveChangesAsync();
+            var genreEntity = await _dbContext.Genres.FindAsync(Id);
+            
+            _dbContext.Genres.Remove(genreEntity);
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
             return (numberOfChanges == 1);
         }
     }

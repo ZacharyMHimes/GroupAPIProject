@@ -37,9 +37,13 @@ namespace GroupProject.Services.Composition
             }
 
         public async Task<CompositionDetail?> GetCompositionByIdAsync(int Id) {
-            var foundComposition = await _dbContext.Compositions.FirstOrDefaultAsync(comp=> comp.Id == Id);
+            var foundComposition = await _dbContext.Compositions
+                .Include(entity=>entity.Composer)
+                .Include(entity=>entity.Genre)
+                .Include(entity=>entity.Period)
+                .FirstOrDefaultAsync(comp => comp.Id == Id);
             
-            return (foundComposition is null) 
+            return foundComposition is null 
                 ? null
                 : new CompositionDetail {
                     Id = foundComposition.Id,
@@ -49,9 +53,9 @@ namespace GroupProject.Services.Composition
                     TotalViews = foundComposition.TotalViews,
                     DitterDorfs = foundComposition.DitterDorfs, 
                     GenreName = foundComposition.Genre.GenreName,
-                    PeriodName = foundComposition.Period.Name,
-                    // converts List<InstrumentEntity> into a list of instrument names ( List<string> )
-                    instruments = foundComposition.Instrumentation.Select(instrument => instrument.InstrumentName).ToList()
+                    PeriodName = foundComposition.Period.Name
+                    // // converts List<InstrumentEntity> into a list of instrument names ( List<string> )
+                    // instruments = foundComposition.Instrumentation.Select(instrument => instrument.InstrumentName).ToList()
                 };
         }
 
@@ -77,6 +81,10 @@ namespace GroupProject.Services.Composition
             compositionEntity.OpusNumber = request.OpusNumber;
             compositionEntity.TotalViews = request.TotalViews;
             compositionEntity.DitterDorfs = request.DitterDorfs;
+            //todo ask terry
+            // compositionEntity.Genre = request.GenreId;
+            // compositionEntity.Composer = request.ComposerId;
+            // compositionEntity.Period = request.PeriodId;
 
             var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;

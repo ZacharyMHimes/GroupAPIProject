@@ -11,7 +11,9 @@ namespace GroupProject.Models.Composition
         public int Id {get; set;}
         public string Title {get; set;}
         public string? OpusNumber {get; set;}
-        
+        public int ComposerId {get; set;}
+        public int GenreId {get; set;}
+        public int PeriodId {get;set;}
         public int TotalViews {get; set;}
         public int DitterDorfs {get; set;}
     }

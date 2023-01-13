@@ -11,33 +11,29 @@ namespace GroupProject.Services.Instrument
 {
     public class InstrumentService : IInstrumentService
     {
-        private readonly ApplicationDbContext _context;
-        private readonly int _instrumentId;
-        private ApplicationDbContext DbContext;
+        private readonly ApplicationDbContext _dbContext;
 
         public InstrumentService(ApplicationDbContext context)
         {
-            DbContext = context;
+            _dbContext = context;
         }
 
         public async Task<bool> CreateInstrumentAsync(InstrumentCreate request)
         {
             var instrumentEntity = new InstrumentEntity
             {
-                Id = _instrumentId,
                 InstrumentName = request.InstrumentName
             };
 
-            DbContext.Add(instrumentEntity);
+            _dbContext.Add(instrumentEntity);
 
-            var numberOfChanges = await DbContext.SaveChangesAsync();
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
         }
 
         public async Task<IEnumerable<InstrumentListItem>> GetAllInstrumentsAsync()
         {
-            var instruments = await _context.Instruments
-                .Where(entity => entity.Id == _instrumentId)
+            var instruments = await _dbContext.Instruments
                 .Select(entity => new InstrumentListItem
                     {
                         Id = entity.Id,
@@ -50,8 +46,8 @@ namespace GroupProject.Services.Instrument
 
         public async Task<InstrumentDetail?> GetInstrumentIdAsync(int instrumentId)
         {
-                var instrumentEntity = await _context.Instruments.FirstOrDefaultAsync(e =>
-                e.Id == instrumentId && e.Id == _instrumentId);
+                var instrumentEntity = await _dbContext.Instruments.FirstOrDefaultAsync(e =>
+                e.Id == instrumentId);
                 return instrumentEntity is null ? null : new InstrumentDetail
                     {
                         Id = instrumentEntity.Id,
@@ -61,22 +57,21 @@ namespace GroupProject.Services.Instrument
 
         public async Task<bool> UpdateInstrumentAsync(InstrumentUpdate request)
         {
-            var instrumentEntity = await _context.Instruments.FindAsync(request.Id);
-            if(instrumentEntity?.Id != _instrumentId)
-                return false;
+            var instrumentEntity = await _dbContext.Instruments.FindAsync(request.Id);
+            
             instrumentEntity.InstrumentName = request.InstrumentName;
 
-            var numberOfChanges = await _context.SaveChangesAsync();
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
         }
 
         public async Task<bool> DeleteInstrumentAsync(int Id)
         {
-            var instrumentEntity = await _context.Instruments.FindAsync(Id);
+            var instrumentEntity = await _dbContext.Instruments.FindAsync(Id);
             if (instrumentEntity is null)
                 return false;
-            _context.Instruments.Remove(instrumentEntity);
-            var numberOfChanges = await _context.SaveChangesAsync();
+            _dbContext.Instruments.Remove(instrumentEntity);
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
             return (numberOfChanges == 1);
         }
     }

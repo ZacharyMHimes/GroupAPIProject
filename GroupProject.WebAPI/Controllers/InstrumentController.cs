@@ -33,14 +33,14 @@ namespace GroupProject.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllInstruments()
             {
-                var notes = await _instrumentService.GetAllInstrumentsAsync();
-                return Ok();
+                var instruments = await _instrumentService.GetAllInstrumentsAsync();
+                return Ok(instruments);
             }
 
-        [HttpGet("{noteId:int}")]
-        public async Task<IActionResult> GetInstrumentById([FromRoute] int instrumentId)
+        [HttpGet("{Id:int}")]
+        public async Task<IActionResult> GetInstrumentById([FromRoute] int Id)
         {
-            var detail = await _instrumentService.GetInstrumentIdAsync(instrumentId);
+            var detail = await _instrumentService.GetInstrumentIdAsync(Id);
             return detail is not null
                 ? Ok(detail)
                 : NotFound();
@@ -57,12 +57,12 @@ namespace GroupProject.WebAPI.Controllers
                 : BadRequest("Instrument entry could not be updated.");
         }
 
-        [HttpDelete("{noteId:int}")]
-        public async Task<IActionResult> DeleteInstrument([FromRoute] int instrumentId, string instrumentName)
+        [HttpDelete("{Id:int}")]
+        public async Task<IActionResult> DeleteInstrument([FromRoute] int Id)
         {
-            return await _instrumentService.DeleteInstrumentAsync(instrumentId)
-                ? Ok($"Instrument Entry {instrumentName} was deleted successfully.")
-                : BadRequest($"Instrument Entry {instrumentName} could not be deleted.");
+            return await _instrumentService.DeleteInstrumentAsync(Id)
+                ? Ok($"Instrument Entry was deleted successfully.")
+                : BadRequest($"Instrument Entry could not be deleted.");
         }
     }
 }

@@ -33,8 +33,8 @@ namespace GroupProject.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllPeriod()
         {
-            var notes = await _periodServices.GetAllPeriodAsync();
-            return Ok();
+            var periods = await _periodServices.GetAllPeriodAsync();
+            return Ok(periods);
         }
 
         [HttpGet("{periodId:int}")]

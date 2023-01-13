@@ -33,14 +33,14 @@ namespace GroupProject.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllGenres()
             {
-                var notes = await _genreService.GetAllGenresAsync();
-                return Ok();
+                var genres = await _genreService.GetAllGenresAsync();
+                return Ok(genres);
             }
         
-        [HttpGet("{noteId:int}")]
-        public async Task<IActionResult> GetGenreById([FromRoute] int genreId)
+        [HttpGet("{Id:int}")]
+        public async Task<IActionResult> GetGenreById([FromRoute] int Id)
         {
-            var detail = await _genreService.GetGenreIdAsync(genreId);
+            var detail = await _genreService.GetGenreIdAsync(Id);
             return detail is not null
                 ? Ok(detail)
                 : NotFound();
@@ -57,12 +57,12 @@ namespace GroupProject.WebAPI.Controllers
                 : BadRequest("Genre entry could not be updated.");
         }
 
-        [HttpDelete("{noteId:int}")]
-        public async Task<IActionResult> DeleteGenre([FromRoute] int genreId, string genreName)
+        [HttpDelete("{Id:int}")]
+        public async Task<IActionResult> DeleteGenre([FromRoute] int Id)
         {
-            return await _genreService.DeleteGenreAsync(genreId)
-                ? Ok($"Genre Entry {genreName} was deleted successfully.")
-                : BadRequest($"Genre Entry {genreName} could not be deleted.");
+            return await _genreService.DeleteGenreAsync(Id)
+                ? Ok($"Genre Entry was deleted successfully.")
+                : BadRequest($"Genre Entry could not be deleted.");
         }
     }
 }

@@ -24,6 +24,7 @@ public class PeriodService : IPeriodService
             {
                 Name = request.Name,
                 StartYear = request.StartYear,
+                EndYear = request.EndYear
             };
 
             _dbContext.Add(periodEntity);
@@ -69,7 +70,8 @@ public class PeriodService : IPeriodService
             var periods = await _dbContext.Periods
                 .Select(entity => new PeriodEntityListItem
                     {
-                        
+                        Id = entity.Id,
+                        Name = entity.Name
                     })
                     .ToListAsync();
 

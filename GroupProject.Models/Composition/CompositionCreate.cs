@@ -14,7 +14,7 @@ namespace GroupProject.Models.Composition
         public int ComposerId { get; set; }
         public int GenreId { get; set; }
         public int PeriodId { get; set; }
-        public string Instruments { get; set; }
+        public string? Instruments { get; set; }
         
     }
 }

@@ -33,8 +33,8 @@ namespace GroupProject.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllComposers()
             {
-                var notes = await _composerService.GetAllComposersAsync();
-                return Ok();
+                var composers = await _composerService.GetAllComposersAsync();
+                return Ok(composers);
             }
 
         [HttpGet("{Id:int}")]
@@ -57,12 +57,12 @@ namespace GroupProject.WebAPI.Controllers
                 : BadRequest("Composer entry could not be updated.");
         }
         
-        [HttpDelete("{composerId:int} {firstName:string} {lastName:string}")]
-        public async Task<IActionResult> DeleteComposer([FromRoute] int composerId, string firstName, string lastName) //*it'd be cool to pass in First and Last name so return string could say their name instead of arbitrary ID.
+        [HttpDelete("{Id:int}")]
+        public async Task<IActionResult> DeleteComposer([FromRoute] int Id) //*it'd be cool to pass in First and Last name so return string could say their name instead of arbitrary ID.
         {
-            return await _composerService.DeleteComposerAsync(composerId)
-                ? Ok($"Composer {firstName} {lastName} was deleted successfully.") //todo check string concatenation syntax
-                : BadRequest($"Composer Entry {composerId} could not be deleted.");
+            return await _composerService.DeleteComposerAsync(Id)
+                ? Ok($"Composer was deleted successfully.") //todo check string concatenation syntax
+                : BadRequest($"Composer Entry could not be deleted.");
         }
         
     }
