@@ -36,7 +36,10 @@ public class PeriodService : IPeriodService
         public async Task<bool> UpdatePeriodAsync(PeriodUpdate request)
         {
             var periodEntity = await _dbContext.Periods.FindAsync(request.Id);
+            //todo data validation for which fields were included in request or not 
             periodEntity.Name = request.Name;
+            periodEntity.StartYear = request.StartYear;
+            periodEntity.EndYear = request.EndYear;
 
             var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;

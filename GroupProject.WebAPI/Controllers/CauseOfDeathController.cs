@@ -34,8 +34,8 @@ namespace GroupProject.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCauses()
             {
-                var notes = await _causeService.GetAllCausesAsync();
-                return Ok();
+                var causesOfDeath = await _causeService.GetAllCausesAsync();
+                return Ok(causesOfDeath);
             }
         
         [HttpGet("{causeId:int}")]
