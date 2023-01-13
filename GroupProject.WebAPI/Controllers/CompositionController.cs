@@ -55,17 +55,17 @@ namespace GroupProject.WebAPI.Controllers
                 return BadRequest(ModelState);
             
             return await _compositionService.UpdateCompositionAsync(request)
-                ? Ok("Composer entry updated successfully.")
-                : BadRequest("Composer entry could not be updated.");
+                ? Ok("Composition entry updated successfully.")
+                : BadRequest("Composition entry could not be updated.");
         } 
 
 
-        [HttpDelete("{Id:int} {firstName} {lastName}")]
-        public async Task<IActionResult> DeleteComposer([FromRoute] int Id, string Title)
+        [HttpDelete("{Id:int}")]
+        public async Task<IActionResult> DeleteComposition([FromRoute] int Id)
         {
             return await _compositionService.DeleteCompositionAsync(Id)
-                ? Ok($"Composition: {Title} was deleted successfully.") 
-                : BadRequest($"Composition entry: {Title} could not be deleted.");
+                ? Ok($"Composition was deleted successfully.") 
+                : BadRequest($"Composition entry could not be deleted.");
         }
     }
 
