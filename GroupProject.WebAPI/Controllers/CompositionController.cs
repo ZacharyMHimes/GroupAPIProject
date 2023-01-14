@@ -38,12 +38,28 @@ namespace GroupProject.WebAPI.Controllers
             }
 
         [HttpGet]
+        [Route("{Id:int}")]
         public async Task<IActionResult> GetAllCompositionsByComposerId(int Id)
             {
                 var compositions = await _compositionService.GetAllCompositionsByComposerIdAsync(Id);
                 return Ok(compositions);
             }
-            
+        [HttpGet]
+        [Route("{Id:int}")]
+        public async Task<IActionResult> GetAllCompositionsByPeriodId(int Id)
+            {
+                var compositions = await _compositionService.GetAllCompositionsByPeriodIdAsync(Id);
+                return Ok(compositions);
+            } 
+        [HttpGet]
+        [Route("{Id:int}")]
+        public async Task<IActionResult> GetAllCompositionsByGenreId(int Id)
+            {
+                var compositions = await _compositionService.GetAllCompositionsByGenreIdAsync(Id);
+                return Ok(compositions);
+            }   
+
+
         [HttpGet]
         [Route("{Id:int}")]
         public async Task<IActionResult> GetCompositionById([FromRoute] int Id)

@@ -12,6 +12,8 @@ namespace GroupProject.Services.Composition
         Task<CompositionDetail?> GetCompositionByIdAsync(int Id);
         Task<IEnumerable<CompositionListItem>> GetAllCompositionsAsync();
         Task<IEnumerable<CompositionListItem>> GetAllCompositionsByComposerIdAsync(int composerId);
+        Task<IEnumerable<CompositionListItem>> GetAllCompositionsByPeriodIdAsync(int periodId);
+        Task<IEnumerable<CompositionListItem>> GetAllCompositionsByGenreIdAsync(int genreId);
         Task<bool> UpdateCompositionAsync(CompositionUpdate request);
         Task<bool> DeleteCompositionAsync(int Id);   
     }
