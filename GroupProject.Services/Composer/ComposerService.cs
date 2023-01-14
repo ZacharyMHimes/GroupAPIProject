@@ -68,9 +68,22 @@ namespace GroupProject.Services.Composer
                         SexyQuotientUpVotes = composerEntity.SexyQuotientUpVotes,
                         SexyQuotientTotalVotes = composerEntity.SexyQuotientTotalVotes,
                         CauseOfDeath = composerEntity.CauseOfDeath.CauseOfDeath
-                        
-                        //*Maybe some fancy magic to display cause of death?
                     };
+        }
+
+        public async Task<IEnumerable<ComposerListItem?>> GetAllComposersByCauseOfDeathAsync(int causeId)
+        {
+                var composers = await _dbContext.Composers
+                .Where(composerEntity => causeId == composerEntity.CauseOfDeath.Id)
+                .Select(composerEntity => new ComposerListItem
+                {
+                    Id = composerEntity.Id,
+                    FirstName = composerEntity.FirstName,
+                    LastName = composerEntity.LastName
+                })
+                .ToListAsync();
+            
+            return composers;
         }
 
 // Should Admin be able to edit sexy quotient at will?

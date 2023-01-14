@@ -36,6 +36,16 @@ namespace GroupProject.WebAPI.Controllers
                 var composers = await _composerService.GetAllComposersAsync();
                 return Ok(composers);
             }
+        
+        [HttpGet]
+        [Route("{Id:int}")]
+        public async Task<IActionResult> GetAllCompositionsByComposerId([FromRoute] int Id)
+            {
+                var composers = await _composerService.GetAllComposersByCauseOfDeathAsync(Id);
+                if(composers is null)
+                    return NotFound("I guess nobody's died of this yet.");
+                return Ok(composers);
+            }
 
         [HttpGet("{Id:int}")]
         public async Task<IActionResult> GetComposerById([FromRoute] int Id)
