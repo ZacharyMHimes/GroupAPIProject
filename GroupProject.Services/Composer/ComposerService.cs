@@ -31,8 +31,8 @@ namespace GroupProject.Services.Composer
                 SexyQuotientUpVotes = request.SexyQuotientUpVotes = 0,
                 SexyQuotientTotalVotes = request.SexyQuotientTotalVotes = 0,
                 CauseOfDeath = await _dbContext.CausesOfDeath.FindAsync(request.CauseOfDeath)
-                //*todo If request.CauseOfDeath returns null - await Create New Cause of Death, passing in CauseOfDeath?
             };
+            //todo - if CauseOfDeath is a new cause of death, add it to the database?
 
             _dbContext.Composers.Add(composerEntity);
 
@@ -67,6 +67,7 @@ namespace GroupProject.Services.Composer
                         DeathDate = composerEntity.DeathDate,
                         SexyQuotientUpVotes = composerEntity.SexyQuotientUpVotes,
                         SexyQuotientTotalVotes = composerEntity.SexyQuotientTotalVotes,
+                        CauseOfDeath = composerEntity.CauseOfDeath.CauseOfDeath
                         
                         //*Maybe some fancy magic to display cause of death?
                     };

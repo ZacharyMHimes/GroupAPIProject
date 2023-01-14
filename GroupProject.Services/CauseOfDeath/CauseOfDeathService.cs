@@ -51,10 +51,6 @@ namespace GroupProject.Services.CauseOfDeath
                     };
         }
 
-        private async Task<CauseOfDeathEntity> GetCauseByNameAsync(string cause)
-            {
-                return await _dbContext.CausesOfDeath.FirstOrDefaultAsync(model => model.CauseOfDeath.ToLower() == cause.ToLower());
-            }
     // Update
         public async Task<bool> UpdateCauseAsync(CauseModel request)
         {
