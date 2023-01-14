@@ -39,7 +39,7 @@ namespace GroupProject.WebAPI.Controllers
 
         [HttpGet]
         [Route("{Id:int}")]
-        public async Task<IActionResult> GetAllCompositionsByComposerId(int Id)
+        public async Task<IActionResult> GetAllCompositionsByComposerId([FromRoute] int Id)
             {
                 var compositions = await _compositionService.GetAllCompositionsByComposerIdAsync(Id);
                 if(compositions is null)
@@ -48,7 +48,7 @@ namespace GroupProject.WebAPI.Controllers
             }
         [HttpGet]
         [Route("{Id:int}")]
-        public async Task<IActionResult> GetAllCompositionsByPeriodId(int Id)
+        public async Task<IActionResult> GetAllCompositionsByPeriodId([FromRoute]int Id)
             {
                 var compositions = await _compositionService.GetAllCompositionsByPeriodIdAsync(Id);
                     return NotFound("No Compositions exist within this Period.");
@@ -56,7 +56,7 @@ namespace GroupProject.WebAPI.Controllers
             } 
         [HttpGet]
         [Route("{Id:int}")]
-        public async Task<IActionResult> GetAllCompositionsByGenreId(int Id)
+        public async Task<IActionResult> GetAllCompositionsByGenreId([FromRoute]int Id)
             {
                 var compositions = await _compositionService.GetAllCompositionsByGenreIdAsync(Id);
                     return NotFound("No Compositions of this Genre were found.");
