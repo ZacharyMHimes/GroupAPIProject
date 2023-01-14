@@ -11,7 +11,6 @@ namespace GroupProject.Services.CauseOfDeath
     Task<bool> CreateCauseOfDeathAsync(CauseCreate request);
     Task<IEnumerable<CauseListItem>> GetAllCausesAsync();
     Task<CauseModel> GetCauseIdAsync(int causeId);
-    Task<CauseOfDeathEntity> GetCauseByNameAsync(string cause);
     Task<bool> UpdateCauseAsync(CauseModel request);
     Task<bool> DeleteCauseAsync(int causeId);
     }
