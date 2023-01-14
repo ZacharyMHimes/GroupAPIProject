@@ -42,6 +42,8 @@ namespace GroupProject.WebAPI.Controllers
         public async Task<IActionResult> GetAllCompositionsByComposerId(int Id)
             {
                 var compositions = await _compositionService.GetAllCompositionsByComposerIdAsync(Id);
+                if(compositions is null)
+                    return NotFound("No Compositions by this Composer were found.");
                 return Ok(compositions);
             }
         [HttpGet]
@@ -49,6 +51,7 @@ namespace GroupProject.WebAPI.Controllers
         public async Task<IActionResult> GetAllCompositionsByPeriodId(int Id)
             {
                 var compositions = await _compositionService.GetAllCompositionsByPeriodIdAsync(Id);
+                    return NotFound("No Compositions exist within this Period.");
                 return Ok(compositions);
             } 
         [HttpGet]
@@ -56,6 +59,7 @@ namespace GroupProject.WebAPI.Controllers
         public async Task<IActionResult> GetAllCompositionsByGenreId(int Id)
             {
                 var compositions = await _compositionService.GetAllCompositionsByGenreIdAsync(Id);
+                    return NotFound("No Compositions of this Genre were found.");
                 return Ok(compositions);
             }   
 
