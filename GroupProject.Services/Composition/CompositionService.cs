@@ -73,6 +73,22 @@ namespace GroupProject.Services.Composition
             return compositions;
         }
 
+        //Takes in Composer Id, returns a list of Compositions by Composer.
+        public async Task<IEnumerable<CompositionListItem>> GetAllCompositionsByComposerIdAsync(int composerId)
+        {
+            var compositions = await _dbContext.Compositions
+                .Where(entity => composerId == entity.Composer.Id)
+                .Select(entity => new CompositionListItem
+                {
+                    Id = entity.Id,
+                    Title = entity.Title,
+                    ComposerId = entity.Composer.Id
+                })
+                .ToListAsync();
+            
+            return compositions;
+        }
+
         public async Task<bool> UpdateCompositionAsync(CompositionUpdate request)
         {
             var compositionEntity = await _dbContext.Compositions.FindAsync(request.Id);

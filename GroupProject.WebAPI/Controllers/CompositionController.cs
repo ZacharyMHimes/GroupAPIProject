@@ -36,6 +36,13 @@ namespace GroupProject.WebAPI.Controllers
                 var compositions = await _compositionService.GetAllCompositionsAsync();
                 return Ok(compositions);
             }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllCompositionsByComposerId(int Id)
+            {
+                var compositions = await _compositionService.GetAllCompositionsByComposerIdAsync(Id);
+                return Ok(compositions);
+            }
             
         [HttpGet]
         [Route("{Id:int}")]
