@@ -24,11 +24,11 @@ namespace GroupProject.Models.Composer
         public string? Nationality {get; set;}
         public DateTime? BirthDate {get; set;}
         public DateTime? DeathDate {get; set;}
+        public int? SexyQuotientUpVotes {get;set;}
+        public int? SexyQuotientTotalVotes {get; set;}
+        public string? CauseOfDeath {get; set;}
 
-        //ComposerEntity Will inherit Cause of Death from Cause of Death create MVC
-        public int? SexyQuotientUpVotes {get;set;} = 0;
-        public int? SexyQuotientTotalVotes {get; set;} = 0;
+        
 
-        //Composer will inherit Compositions from Composition MVC
     }
 }

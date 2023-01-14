@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GroupProject.Data;
 using GroupProject.Models.Composer;
 using Microsoft.EntityFrameworkCore;
+using GroupProject.Services.CauseOfDeath;
 
 namespace GroupProject.Services.Composer 
 {
@@ -16,6 +17,7 @@ namespace GroupProject.Services.Composer
         {
             _dbContext = dbContext;
         }
+
 
         public async Task<bool> CreateComposerAsync(ComposerCreate request)
         {
@@ -28,7 +30,9 @@ namespace GroupProject.Services.Composer
                 DeathDate = request.DeathDate,
                 SexyQuotientUpVotes = request.SexyQuotientUpVotes = 0,
                 SexyQuotientTotalVotes = request.SexyQuotientTotalVotes = 0,
+                CauseOfDeath = await _dbContext.CausesOfDeath.FindAsync(request.CauseOfDeath)
             };
+            //todo - if CauseOfDeath is a new cause of death, add it to the database?
 
             _dbContext.Composers.Add(composerEntity);
 
@@ -63,6 +67,7 @@ namespace GroupProject.Services.Composer
                         DeathDate = composerEntity.DeathDate,
                         SexyQuotientUpVotes = composerEntity.SexyQuotientUpVotes,
                         SexyQuotientTotalVotes = composerEntity.SexyQuotientTotalVotes,
+                        CauseOfDeath = composerEntity.CauseOfDeath.CauseOfDeath
                         
                         //*Maybe some fancy magic to display cause of death?
                     };

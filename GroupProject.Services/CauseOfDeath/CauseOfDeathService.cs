@@ -27,7 +27,7 @@ namespace GroupProject.Services.CauseOfDeath
             var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
         }
-    // GetAll
+    // Get
         public async Task<IEnumerable<CauseListItem>> GetAllCausesAsync()
         {
             var causes = await _dbContext.CausesOfDeath
@@ -40,7 +40,7 @@ namespace GroupProject.Services.CauseOfDeath
 
             return causes;
         }
-    // GetByID
+
         public async Task<CauseModel?> GetCauseIdAsync(int causeId)
         {
                 var causeEntity = await _dbContext.CausesOfDeath.FirstOrDefaultAsync(e =>e.Id == causeId);
@@ -50,6 +50,7 @@ namespace GroupProject.Services.CauseOfDeath
                         CauseOfDeath = causeEntity.CauseOfDeath 
                     };
         }
+
     // Update
         public async Task<bool> UpdateCauseAsync(CauseModel request)
         {

@@ -13,8 +13,8 @@ namespace GroupProject.Models.Composer
         public string? Nationality {get; set;}
         public DateTime? BirthDate {get; set;}
         public DateTime? DeathDate {get; set;}
-        //Call the Cause of Death View model here somehow?
         public int? SexyQuotientUpVotes {get;set;}
         public int? SexyQuotientTotalVotes {get; set;}  
+        public string? CauseOfDeath {get; set;}
     }
 }
