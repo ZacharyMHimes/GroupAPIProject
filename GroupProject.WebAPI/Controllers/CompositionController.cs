@@ -13,7 +13,7 @@ namespace GroupProject.WebAPI.Controllers
     public class CompositionController : ControllerBase
     {
         private readonly ICompositionService _compositionService;
-        public CompositionController(ICompositionService compositionService )
+        public CompositionController(ICompositionService compositionService)
         {
             _compositionService = compositionService;
         }
@@ -22,76 +22,78 @@ namespace GroupProject.WebAPI.Controllers
         public async Task<IActionResult> CreateComposition([FromBody] CompositionCreate request)
         {
             if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+                return BadRequest(ModelState);
 
             if (await _compositionService.CreateCompositionAsync(request))
-            return Ok("Composition entry created successfully.");
+                return Ok("Composition entry created successfully.");
 
             return BadRequest();
         }
-            
+
         [HttpGet]
         public async Task<IActionResult> GetAllCompositions()
-            {
-                var compositions = await _compositionService.GetAllCompositionsAsync();
-                return Ok(compositions);
-            }
-
-        [HttpGet]
-        [Route("{Id:int}")]
-        public async Task<IActionResult> GetAllCompositionsByComposerId([FromRoute] int Id)
-            {
-                var compositions = await _compositionService.GetAllCompositionsByComposerIdAsync(Id);
-                if(compositions is null)
-                    return NotFound("No Compositions by this Composer were found.");
-                return Ok(compositions);
-            }
-        [HttpGet]
-        [Route("{Id:int}")]
-        public async Task<IActionResult> GetAllCompositionsByPeriodId([FromRoute]int Id)
-            {
-                var compositions = await _compositionService.GetAllCompositionsByPeriodIdAsync(Id);
-                    return NotFound("No Compositions exist within this Period.");
-                return Ok(compositions);
-            } 
-        [HttpGet]
-        [Route("{Id:int}")]
-        public async Task<IActionResult> GetAllCompositionsByGenreId([FromRoute]int Id)
-            {
-                var compositions = await _compositionService.GetAllCompositionsByGenreIdAsync(Id);
-                    return NotFound("No Compositions of this Genre were found.");
-                return Ok(compositions);
-            }   
-
-
-        [HttpGet]
-        [Route("{Id:int}")]
-        public async Task<IActionResult> GetCompositionById([FromRoute] int Id)
         {
-            var response = await _compositionService.GetCompositionByIdAsync(Id);
+            var compositions = await _compositionService.GetAllCompositionsAsync();
+            return Ok(compositions);
+        }
+
+        [HttpGet]
+        [Route("{CompositionId:int}")]
+        public async Task<IActionResult> GetCompositionById([FromRoute] int CompositionId)
+        {
+            var response = await _compositionService.GetCompositionByIdAsync(CompositionId);
             if (response is null)
                 return NotFound();
-            
+
             return Ok(response);
         }
-        
-        [HttpPut]
-        public async Task<IActionResult> UpdateComposerById([FromBody] CompositionUpdate request)
+
+        [HttpGet]
+        [Route("ByComposer/{ComposerId:int}")]
+        public async Task<IActionResult> GetAllCompositionsByComposerId([FromRoute] int ComposerId)
         {
-            if(!ModelState.IsValid)
+            var compositions = await _compositionService.GetAllCompositionsByComposerIdAsync(ComposerId);
+            if (compositions is null)
+                return NotFound("No Compositions by this Composer were found.");
+            return Ok(compositions);
+        }
+
+        [HttpGet]
+        [Route("ByPeriod/{PeriodId:int}")]
+        public async Task<IActionResult> GetAllCompositionsByPeriodId([FromRoute] int PeriodId)
+        {
+            var compositions = await _compositionService.GetAllCompositionsByPeriodIdAsync(PeriodId);
+            if (compositions is null)
+                return NotFound("No Compositions exist within this Period.");
+            return Ok(compositions);
+        }
+        [HttpGet]
+        [Route("ByGenre/{GenreId:int}")]
+        public async Task<IActionResult> GetAllCompositionsByGenreId([FromRoute] int GenreId)
+        {
+            var compositions = await _compositionService.GetAllCompositionsByGenreIdAsync(GenreId);
+            if (compositions is null)
+                return NotFound("No Compositions of this Genre were found.");
+            return Ok(compositions);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateCompositionById([FromBody] CompositionUpdate request)
+        {
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            
+
             return await _compositionService.UpdateCompositionAsync(request)
                 ? Ok("Composition entry updated successfully.")
                 : BadRequest("Composition entry could not be updated.");
-        } 
+        }
 
 
         [HttpDelete("{Id:int}")]
         public async Task<IActionResult> DeleteComposition([FromRoute] int Id)
         {
             return await _compositionService.DeleteCompositionAsync(Id)
-                ? Ok($"Composition was deleted successfully.") 
+                ? Ok($"Composition was deleted successfully.")
                 : BadRequest($"Composition entry could not be deleted.");
         }
     }
