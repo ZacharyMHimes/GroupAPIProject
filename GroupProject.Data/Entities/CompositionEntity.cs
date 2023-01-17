@@ -19,5 +19,5 @@ using System.Threading.Tasks;
         public GenreEntity? Genre {get; set;}
         public PeriodEntity? Period {get; set;}
         
-        public List<InstrumentEntity>? Instrumentation {get;set;}
+        public List<InstrumentationEntity>? Instrumentations {get;set;}
     }

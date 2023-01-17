@@ -11,4 +11,5 @@ using System.Threading.Tasks;
 
         [Required]
         public string InstrumentName {get; set;}
+        public List<InstrumentationEntity>? instrumentations {get; set;}
     }
