@@ -13,9 +13,9 @@ namespace GroupProject.Models.Composer
         public string? LastName {get; set;}
         public string? Nationality {get; set;}
         public DateTime? BirthDate {get; set;}
-        public DateTime? DeathDate {get; set;}
-        
+        public DateTime? DeathDate {get; set;}    
         public int? SexyQuotientUpVotes {get;set;}
         public int? SexyQuotientTotalVotes {get; set;}
+        public string? CauseOfDeath {get; set;}
     }
 }

@@ -32,7 +32,6 @@ namespace GroupProject.Services.Composer
                 SexyQuotientTotalVotes = request.SexyQuotientTotalVotes = 0,
                 CauseOfDeath = await _dbContext.CausesOfDeath.FindAsync(request.CauseOfDeath)
             };
-            //todo - if CauseOfDeath is a new cause of death, add it to the database?
 
             _dbContext.Composers.Add(composerEntity);
 
@@ -56,7 +55,9 @@ namespace GroupProject.Services.Composer
 
         public async Task<ComposerDetail?> GetComposerIdAsync(int composerId)
         {
-                var composerEntity = await _dbContext.Composers.FirstOrDefaultAsync(e =>e.Id == composerId);
+                var composerEntity = await _dbContext.Composers
+                                    .Include(entity => entity.CauseOfDeath)
+                                    .FirstOrDefaultAsync(e =>e.Id == composerId);
                 return composerEntity is null ? null : new ComposerDetail
                     {
                         Id = composerEntity.Id,
@@ -69,15 +70,33 @@ namespace GroupProject.Services.Composer
                         SexyQuotientTotalVotes = composerEntity.SexyQuotientTotalVotes,
                         CauseOfDeath = composerEntity.CauseOfDeath.CauseOfDeath
                         
-                        //*Maybe some fancy magic to display cause of death?
                     };
         }
 
+// Get Sexiest Composers
+        public async Task<IEnumerable<ComposerSexyListItem>> GetComposersByHotnessAsync(int numberOfComposers)
+        {
+            var composers = await _dbContext.Composers
+                            .OrderByDescending(composer => composer.SexyQuotientUpVotes/composer.SexyQuotientTotalVotes)
+                            .Take(numberOfComposers)
+                            .Select(entity => new ComposerSexyListItem
+                                {
+                                    Id = entity.Id,
+                                    FirstName = entity.FirstName,
+                                    LastName = entity.LastName,
+                                    SexyQuotient = (float) entity.SexyQuotientUpVotes/(float) entity.SexyQuotientTotalVotes
+                                })
+                            .ToListAsync();
+                    
+            return composers;
+        }
 // Should Admin be able to edit sexy quotient at will?
 //todo - Add Update Composer SexyQuotient Async Method
         public async Task<bool> UpdateComposerAsync(ComposerUpdate request)
         {
-            var composerEntity = await _dbContext.Composers.FindAsync(request.Id);
+            var composerEntity = await _dbContext.Composers
+                                .Include(entity => entity.CauseOfDeath)
+                                .FirstOrDefaultAsync(entity => entity.Id == request.Id);
             composerEntity.FirstName = request.FirstName;
             composerEntity.LastName = request.LastName;
             composerEntity.Nationality = request.Nationality;
@@ -85,6 +104,7 @@ namespace GroupProject.Services.Composer
             composerEntity.DeathDate = request.DeathDate;
             composerEntity.SexyQuotientUpVotes = request.SexyQuotientUpVotes;
             composerEntity.SexyQuotientTotalVotes = request.SexyQuotientTotalVotes;
+            composerEntity.CauseOfDeath = await _dbContext.CausesOfDeath.FirstOrDefaultAsync(entity => entity.CauseOfDeath.ToLower() == request.CauseOfDeath.ToLower());
 
             var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;

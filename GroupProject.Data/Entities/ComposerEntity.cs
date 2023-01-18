@@ -15,8 +15,8 @@ using System.Threading.Tasks;
         public string? Nationality {get; set;}
         public DateTime? BirthDate {get; set;}
         public DateTime? DeathDate {get; set;}       
-        public int? SexyQuotientUpVotes {get;set;} = 0;
-        public int? SexyQuotientTotalVotes {get; set;} = 0;
+        public int? SexyQuotientUpVotes {get;set;} = 1;
+        public int? SexyQuotientTotalVotes {get; set;} = 1;
         public CauseOfDeathEntity? CauseOfDeath {get; set;}
         public List<CompositionEntity>? Compositions {get; set;}
 
