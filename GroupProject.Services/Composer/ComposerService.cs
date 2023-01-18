@@ -30,10 +30,8 @@ namespace GroupProject.Services.Composer
                 Nationality = request.Nationality,
                 BirthDate = request.BirthDate,
                 DeathDate = request.DeathDate,
-                SexyQuotientUpVotes = request.SexyQuotientUpVotes = 0,
-                SexyQuotientTotalVotes = request.SexyQuotientTotalVotes = 0,
-                //Check to see if a matching cause of death is in the Database.
-                //CauseOfDeath = await _dbContext.CausesOfDeath.FirstOrDefaultAsync(request.CauseOfDeath)
+                SexyQuotientUpVotes = request.SexyQuotientUpVotes,
+                SexyQuotientTotalVotes = request.SexyQuotientTotalVotes
             };
 
             //Save the New Composer to the Database
@@ -52,18 +50,26 @@ namespace GroupProject.Services.Composer
                     var searchedCause = await _dbContext.CausesOfDeath.FirstOrDefaultAsync(c => c.CauseOfDeath == request.CauseOfDeath);
                     if (searchedCause is null)
                     {
-                        //if nothing is found, create a new cause of death and add to _dbContext.
-                        _dbContext.CausesOfDeath.Add(new CauseOfDeathEntity
+                        //if nothing is found, create a new cause of death
+                        var newCauseEntity = new CauseOfDeathEntity
                         {
                             CauseOfDeath = request.CauseOfDeath
-                        });
+                        };
+                        //link the new composer entity with the new cause of death entity
+                        composerEntity.CauseOfDeath = newCauseEntity;
+                        //add to _dbContext
+                        _dbContext.CausesOfDeath.Add(newCauseEntity);
                         //Save to the Database and return true
                         numberOfChanges = await _dbContext.SaveChangesAsync();
                         return true;
                     }
+                    else 
+                    {
+                        composerEntity.CauseOfDeath = searchedCause;
+                        return await _dbContext.SaveChangesAsync() == 1;
+                    }
                 }
-
-            return false;            
+            return false;
         }
 
         public async Task<IEnumerable<ComposerListItem>> GetAllComposersAsync()
