@@ -33,10 +33,20 @@ namespace GroupProject.Services.Composer
                 CauseOfDeath = await _dbContext.CausesOfDeath.FindAsync(request.CauseOfDeath)
             };
 
-            _dbContext.Composers.Add(composerEntity);
+            var numberOfChanges = _dbContext.Composers.Add(composerEntity);
+            await _dbContext.SaveChangesAsync();
+            if(request.CauseOfDeath is null || request.CauseOfDeath.Length == 0)
+            {
+                return true;
+            }
+            
+            
+            CauseOfDeathEntity newCauseOfDeath = new CauseOfDeathEntity();
 
-            var numberOfChanges = await _dbContext.SaveChangesAsync();
-            return numberOfChanges == 1;
+
+
+
+            
         }
 
         public async Task<IEnumerable<ComposerListItem>> GetAllComposersAsync()
