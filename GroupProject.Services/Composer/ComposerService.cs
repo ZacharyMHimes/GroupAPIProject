@@ -32,7 +32,6 @@ namespace GroupProject.Services.Composer
                 SexyQuotientTotalVotes = request.SexyQuotientTotalVotes = 0,
                 CauseOfDeath = await _dbContext.CausesOfDeath.FindAsync(request.CauseOfDeath)
             };
-            //todo - if CauseOfDeath is a new cause of death, add it to the database?
 
             _dbContext.Composers.Add(composerEntity);
 
@@ -56,7 +55,9 @@ namespace GroupProject.Services.Composer
 
         public async Task<ComposerDetail?> GetComposerIdAsync(int composerId)
         {
-                var composerEntity = await _dbContext.Composers.FirstOrDefaultAsync(e =>e.Id == composerId);
+                var composerEntity = await _dbContext.Composers
+                                    .Include(entity => entity.CauseOfDeath)
+                                    .FirstOrDefaultAsync(e =>e.Id == composerId);
                 return composerEntity is null ? null : new ComposerDetail
                     {
                         Id = composerEntity.Id,
@@ -69,7 +70,6 @@ namespace GroupProject.Services.Composer
                         SexyQuotientTotalVotes = composerEntity.SexyQuotientTotalVotes,
                         CauseOfDeath = composerEntity.CauseOfDeath.CauseOfDeath
                         
-                        //*Maybe some fancy magic to display cause of death?
                     };
         }
 
@@ -94,7 +94,9 @@ namespace GroupProject.Services.Composer
 //todo - Add Update Composer SexyQuotient Async Method
         public async Task<bool> UpdateComposerAsync(ComposerUpdate request)
         {
-            var composerEntity = await _dbContext.Composers.FindAsync(request.Id);
+            var composerEntity = await _dbContext.Composers
+                                .Include(entity => entity.CauseOfDeath)
+                                .FirstOrDefaultAsync(entity => entity.Id == request.Id);
             composerEntity.FirstName = request.FirstName;
             composerEntity.LastName = request.LastName;
             composerEntity.Nationality = request.Nationality;
@@ -102,6 +104,7 @@ namespace GroupProject.Services.Composer
             composerEntity.DeathDate = request.DeathDate;
             composerEntity.SexyQuotientUpVotes = request.SexyQuotientUpVotes;
             composerEntity.SexyQuotientTotalVotes = request.SexyQuotientTotalVotes;
+            composerEntity.CauseOfDeath = await _dbContext.CausesOfDeath.FirstOrDefaultAsync(entity => entity.CauseOfDeath.ToLower() == request.CauseOfDeath.ToLower());
 
             var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
