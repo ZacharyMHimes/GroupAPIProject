@@ -73,6 +73,23 @@ namespace GroupProject.Services.Composer
                     };
         }
 
+// Get Sexiest Composers
+        public async Task<IEnumerable<ComposerSexyListItem>> GetComposersByHotnessAsync(int numberOfComposers)
+        {
+            var composers = await _dbContext.Composers
+                            .OrderByDescending(composer => composer.SexyQuotientUpVotes/composer.SexyQuotientTotalVotes)
+                            .Take(numberOfComposers)
+                            .Select(entity => new ComposerSexyListItem
+                                {
+                                    Id = entity.Id,
+                                    FirstName = entity.FirstName,
+                                    LastName = entity.LastName,
+                                    SexyQuotient = (float) entity.SexyQuotientUpVotes/(float) entity.SexyQuotientTotalVotes
+                                })
+                            .ToListAsync();
+                    
+            return composers;
+        }
 // Should Admin be able to edit sexy quotient at will?
 //todo - Add Update Composer SexyQuotient Async Method
         public async Task<bool> UpdateComposerAsync(ComposerUpdate request)
