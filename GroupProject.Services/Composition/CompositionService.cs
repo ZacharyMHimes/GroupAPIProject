@@ -18,42 +18,88 @@ namespace GroupProject.Services.Composition
         }
 
         public async Task<bool> CreateCompositionAsync(CompositionCreate request)
+        {
+            //separate request.Instruments by comma
+            // e.g. "violin,bass,cello"
+            var instrumentStringsToAdd = request.Instruments.Split(',');
+            // make the compositionEntity
+            var compositionEntity = new CompositionEntity
             {
-                var compositionEntity = new CompositionEntity
-                {
-                    Title = request.Title,
-                    Composer = await _dbContext.Composers.FindAsync(request.ComposerId),
-                    Genre = await _dbContext.Genres.FindAsync(request.GenreId),
-                    Period = await _dbContext.Periods.FindAsync(request.PeriodId),
-                    // Instruments = request.Instruments,
-                };
+                Title = request.Title,
+                Composer = await _dbContext.Composers.FindAsync(request.ComposerId),
+                Genre = await _dbContext.Genres.FindAsync(request.GenreId),
+                Period = await _dbContext.Periods.FindAsync(request.PeriodId),
+                Instrumentations = new List<InstrumentationEntity>()
+            };
 
-                if(compositionEntity.Composer is null)
+            if (compositionEntity.Composer is null)
                 return false;
-                _dbContext.Add(compositionEntity);
+            _dbContext.Add(compositionEntity);
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
 
-                var numberOfChanges = await _dbContext.SaveChangesAsync();
-                return numberOfChanges == 1;
+            List<InstrumentEntity> instrumentEntities = new List<InstrumentEntity>();
+
+            if (numberOfChanges > 0)
+            {
+                if (instrumentStringsToAdd is null || instrumentStringsToAdd.Length == 0) {
+                    // compositionEntity.Instrumentations = new List<InstrumentationEntity>();
+                    return true;
+                }
+                // check if each instrument exists already
+                foreach (var instrumentName in instrumentStringsToAdd)
+                {
+                    var searchedInstrument = await _dbContext.Instruments.FirstOrDefaultAsync(i => i.InstrumentName == instrumentName);
+                    // if not exists, create new instrument
+                    if (searchedInstrument is null)
+                    {
+                        var newInstrument = new InstrumentEntity
+                        {
+                            InstrumentName = instrumentName
+                        };
+                        instrumentEntities.Add(newInstrument);
+                        _dbContext.Instruments.Add(newInstrument);
+                    }
+                    else
+                    {
+                        instrumentEntities.Add(searchedInstrument);
+                    }
+                }
+                numberOfChanges = await _dbContext.SaveChangesAsync();
+                // create new instrumentation for each instrument we made/searched
+                foreach (var instrument in instrumentEntities)
+                {
+                    _dbContext.Instrumentations.Add(new InstrumentationEntity
+                    {
+                        Instrument = instrument,
+                        Composition = compositionEntity
+                    });
+                }
+                numberOfChanges = await _dbContext.SaveChangesAsync();
+                return true;
             }
+            return false;
+        }
 
-        public async Task<CompositionDetail?> GetCompositionByIdAsync(int Id) {
+        public async Task<CompositionDetail?> GetCompositionByIdAsync(int Id)
+        {
             var foundComposition = await _dbContext.Compositions
-                .Include(entity=>entity.Composer)
-                .Include(entity=>entity.Genre)
-                .Include(entity=>entity.Period)
-                .Include(entity=>entity.Instrumentations)
-                .ThenInclude(entity=>entity.Instrument)
+                .Include(entity => entity.Composer)
+                .Include(entity => entity.Genre)
+                .Include(entity => entity.Period)
+                .Include(entity => entity.Instrumentations)
+                .ThenInclude(entity => entity.Instrument)
                 .FirstOrDefaultAsync(comp => comp.Id == Id);
-            
-            return foundComposition is null 
+
+            return foundComposition is null
                 ? null
-                : new CompositionDetail {
+                : new CompositionDetail
+                {
                     Id = foundComposition.Id,
                     Title = foundComposition.Title,
                     ComposerName = $"{foundComposition.Composer.FirstName} {foundComposition.Composer.LastName}",
                     OpusNumber = foundComposition.OpusNumber,
                     TotalViews = foundComposition.TotalViews,
-                    DitterDorfs = foundComposition.DitterDorfs, 
+                    DitterDorfs = foundComposition.DitterDorfs,
                     GenreName = foundComposition.Genre.GenreName,
                     PeriodName = foundComposition.Period.Name,
                     // converts List<InstrumentEntity> into a list of instrument names ( List<string> )
@@ -65,11 +111,11 @@ namespace GroupProject.Services.Composition
         {
             var compositions = await _dbContext.Compositions
                 .Select(entity => new CompositionListItem
-                    {
-                        Id = entity.Id,
-                        Title = entity.Title,
-                        ComposerId = entity.Composer.Id
-                    })
+                {
+                    Id = entity.Id,
+                    Title = entity.Title,
+                    ComposerId = entity.Composer.Id
+                })
                     .ToListAsync();
 
             return compositions;
@@ -87,7 +133,7 @@ namespace GroupProject.Services.Composition
                     ComposerId = entity.Composer.Id
                 })
                 .ToListAsync();
-            
+
             return compositions;
         }
 
@@ -103,7 +149,7 @@ namespace GroupProject.Services.Composition
                     ComposerId = entity.Composer.Id
                 })
                 .ToListAsync();
-            
+
             return compositions;
         }
 
@@ -119,7 +165,7 @@ namespace GroupProject.Services.Composition
                     ComposerId = entity.Composer.Id
                 })
                 .ToListAsync();
-            
+
             return compositions;
         }
 
@@ -139,7 +185,7 @@ namespace GroupProject.Services.Composition
             var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
         }
-        
+
         public async Task<bool> DeleteCompositionAsync(int Id)
         {
             var compositionEntity = await _dbContext.Composers.FindAsync(Id);
