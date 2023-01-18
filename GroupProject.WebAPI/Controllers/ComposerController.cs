@@ -65,5 +65,11 @@ namespace GroupProject.WebAPI.Controllers
                 : BadRequest($"Composer Entry could not be deleted.");
         }
         
+        [HttpGet("{numberOfComposers:int}")]
+        public async Task<IActionResult> ComposerBySexyQuotient([FromRoute] int numberOfComposers)
+        {
+            var composers = await _composerService.GetComposersByHotnessAsync(numberOfComposers);
+                return Ok(composers);
+        }
     }
 }
