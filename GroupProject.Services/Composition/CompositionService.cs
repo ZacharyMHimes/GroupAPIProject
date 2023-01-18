@@ -41,6 +41,8 @@ namespace GroupProject.Services.Composition
                 .Include(entity=>entity.Composer)
                 .Include(entity=>entity.Genre)
                 .Include(entity=>entity.Period)
+                .Include(entity=>entity.Instrumentations)
+                .ThenInclude(entity=>entity.Instrument)
                 .FirstOrDefaultAsync(comp => comp.Id == Id);
             
             return foundComposition is null 
@@ -53,9 +55,9 @@ namespace GroupProject.Services.Composition
                     TotalViews = foundComposition.TotalViews,
                     DitterDorfs = foundComposition.DitterDorfs, 
                     GenreName = foundComposition.Genre.GenreName,
-                    PeriodName = foundComposition.Period.Name
-                    // // converts List<InstrumentEntity> into a list of instrument names ( List<string> )
-                    // instruments = foundComposition.Instrumentation.Select(instrument => instrument.InstrumentName).ToList()
+                    PeriodName = foundComposition.Period.Name,
+                    // converts List<InstrumentEntity> into a list of instrument names ( List<string> )
+                    instruments = foundComposition.Instrumentations.Select(instrumentation => instrumentation.Instrument.InstrumentName).ToList()
                 };
         }
 
