@@ -1,3 +1,4 @@
+using System.Net.NetworkInformation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,8 +101,8 @@ namespace GroupProject.Services.Composition
                     OpusNumber = foundComposition.OpusNumber,
                     TotalViews = foundComposition.TotalViews,
                     DitterDorfs = foundComposition.DitterDorfs,
-                    GenreName = foundComposition.Genre.GenreName,
-                    PeriodName = foundComposition.Period.Name,
+                    GenreName = foundComposition.Genre?.GenreName,
+                    PeriodName = foundComposition.Period?.Name,
                     // converts List<InstrumentEntity> into a list of instrument names ( List<string> )
                     instruments = foundComposition.Instrumentations.Select(instrumentation => instrumentation.Instrument.InstrumentName).ToList()
                 };
@@ -177,10 +178,9 @@ namespace GroupProject.Services.Composition
             compositionEntity.OpusNumber = request.OpusNumber;
             compositionEntity.TotalViews = request.TotalViews;
             compositionEntity.DitterDorfs = request.DitterDorfs;
-            //todo ask terry
-            // compositionEntity.Genre = request.GenreId;
-            // compositionEntity.Composer = request.ComposerId;
-            // compositionEntity.Period = request.PeriodId;
+            compositionEntity.Genre =  await _dbContext.Genres.FindAsync(request.GenreId);
+            compositionEntity.Composer = await _dbContext.Composers.FindAsync(request.ComposerId);
+            compositionEntity.Period = await _dbContext.Periods.FindAsync(request.PeriodId);
 
             var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
