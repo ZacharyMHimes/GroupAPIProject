@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Models.Period;
 using GroupProject.Services.Period;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GroupProject.WebAPI.Controllers
@@ -17,7 +18,7 @@ namespace GroupProject.WebAPI.Controllers
         {
             _periodServices = periodServices;
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreatePeriod([FromBody] PeriodCreate request)
         {
@@ -57,6 +58,7 @@ namespace GroupProject.WebAPI.Controllers
             : BadRequest("Period entry could not be updated");
         }
 
+        [Authorize]
         [HttpDelete("{periodId:int}")]
         public async Task<IActionResult> DeletePeriod([FromRoute] int periodId)
         {

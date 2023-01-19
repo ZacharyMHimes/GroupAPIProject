@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Models.Composer;
 using GroupProject.Services.Composer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GroupProject.WebAPI.Controllers
@@ -17,7 +18,7 @@ namespace GroupProject.WebAPI.Controllers
         {
             _composerService = composerService;
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateComposer([FromBody] ComposerCreate request)
             {
@@ -56,7 +57,7 @@ namespace GroupProject.WebAPI.Controllers
                 ? Ok("Composer entry updated successfully.")
                 : BadRequest("Composer entry could not be updated.");
         }
-        
+        [Authorize]
         [HttpDelete("Delete/{Id:int}")]
         public async Task<IActionResult> DeleteComposer([FromRoute] int Id) //*it'd be cool to pass in First and Last name so return string could say their name instead of arbitrary ID.
         {

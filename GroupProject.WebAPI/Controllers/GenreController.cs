@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Models.Genre;
 using GroupProject.Services.Genre;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GroupProject.WebAPI.Controllers
@@ -17,7 +18,7 @@ namespace GroupProject.WebAPI.Controllers
         {
             _genreService = genreService;
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateGenre([FromBody] GenreCreate request)
             {
@@ -57,6 +58,7 @@ namespace GroupProject.WebAPI.Controllers
                 : BadRequest("Genre entry could not be updated.");
         }
 
+        [Authorize]
         [HttpDelete("{Id:int}")]
         public async Task<IActionResult> DeleteGenre([FromRoute] int Id)
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Models.Instrumentation;
 using GroupProject.Services.Instrumentation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GroupProject.WebAPI.Controllers
@@ -17,7 +18,7 @@ namespace GroupProject.WebAPI.Controllers
         {
             _instrumentationService = instrumentationService;
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateInstrumentation([FromBody] InstrumentationCreate request)
         {
@@ -56,7 +57,8 @@ namespace GroupProject.WebAPI.Controllers
             ? Ok($"Instrumentation entry updated successfully.")
             : BadRequest("Instrumentation entry could not be updated successfully.");
         }
-
+        
+        [Authorize]
         [HttpDelete("{instrumentationId:int}")]
         public async Task<IActionResult> DeleteInstrumentation([FromRoute] int instrumentationId)
         {

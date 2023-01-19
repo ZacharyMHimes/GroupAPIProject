@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Models.CauseOfDeath;
 using GroupProject.Services.CauseOfDeath;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GroupProject.WebAPI.Controllers
@@ -19,6 +20,7 @@ namespace GroupProject.WebAPI.Controllers
             _causeService = causeService;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateCause([FromBody] CauseCreate request)
             {
@@ -58,7 +60,8 @@ namespace GroupProject.WebAPI.Controllers
                 : BadRequest("Cause of Death entry could not be updated.");
         }
 
-        [HttpDelete("{causeId:int}")]
+        [Authorize]
+        [HttpDelete("Delete/{causeId:int}")]
         public async Task<IActionResult> DeleteCause([FromRoute] int causeId) 
         {
             return await _causeService.DeleteCauseAsync(causeId)
