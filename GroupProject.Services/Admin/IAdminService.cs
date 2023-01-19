@@ -9,7 +9,7 @@ namespace GroupProject.Services.Admin
     public interface IAdminService
     {
         Task<bool> RegisterAdminAsync(AdminCreate newAdmin);
-        // Task<AdminEntity> GetAdminByIdAsync(int Id);
+        Task<AdminDetail> GetAdminByIdAsync(int Id);
         // Task<IEnumerable<AdminEntity>> GetAllAdminsAsync();
         // Task<bool> UpdateAdminAsync(AdminUpdate newAdminInfo);
         // Task<bool> DeleteAdminAsync(int Id);

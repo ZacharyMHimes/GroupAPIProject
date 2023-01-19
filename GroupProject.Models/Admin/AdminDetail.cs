@@ -7,6 +7,7 @@ namespace GroupProject.Models.Admin
 {
     public class AdminDetail
     {
-        
+        public int Id {get; set;}
+        public string Username {get; set;}
     }
 }

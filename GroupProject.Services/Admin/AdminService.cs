@@ -26,6 +26,17 @@ namespace GroupProject.Services.Admin
             _dbContext.Admins.Add(entity);
             return await _dbContext.SaveChangesAsync() == 1;
         }
+        public async Task<AdminDetail> GetAdminByIdAsync(int Id)
+        {
+            var entity = await _dbContext.Admins.FindAsync(Id);
+            if (entity is null)
+                return null;
+            var adminDetail = new AdminDetail {
+                Id = entity.Id,
+                Username = entity.UserName
+            };
+            return adminDetail;
+        }
         
     }
 }

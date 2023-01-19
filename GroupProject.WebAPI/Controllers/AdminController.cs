@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GroupProject.Models.Admin;
 using GroupProject.Services.Admin;
 using GroupProject.Services.Token;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GroupProject.WebAPI.Controllers
@@ -30,6 +31,17 @@ namespace GroupProject.WebAPI.Controllers
             if (registerResult)
                 return Ok("Admin was registered");
             return BadRequest("Admin could not be registered");
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("{Id}")]
+        public async Task<IActionResult> GetAdminById([FromRoute] int Id)
+        {
+            var adminDetail = await _adminService.GetAdminByIdAsync(Id);
+            if (adminDetail is null)
+                return NotFound();
+            return Ok(adminDetail);
         }
     }
 }
