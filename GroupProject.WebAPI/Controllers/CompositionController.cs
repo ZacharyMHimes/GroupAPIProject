@@ -78,6 +78,7 @@ namespace GroupProject.WebAPI.Controllers
         }
 
         [HttpPut]
+        [Route("UpdateCompositionDetail/")]
         public async Task<IActionResult> UpdateCompositionById([FromBody] CompositionUpdate request)
         {
             if (!ModelState.IsValid)
@@ -88,6 +89,17 @@ namespace GroupProject.WebAPI.Controllers
                 : BadRequest("Composition entry could not be updated.");
         }
 
+        [HttpPut]
+        [Route("UpdateCompositionViewsAndDitters/")]
+        public async Task<IActionResult> UpdateCompositionDittersAndViews([FromBody] CompositionUpdateDitterView request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return await _compositionService.UpdateCompositionDittersAndViewsAsync(request)
+                ? Ok()
+                : BadRequest("An Error Occurred");
+        }
 
         [HttpDelete("{Id:int}")]
         public async Task<IActionResult> DeleteComposition([FromRoute] int Id)
