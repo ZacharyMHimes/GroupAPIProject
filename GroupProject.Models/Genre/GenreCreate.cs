@@ -9,7 +9,7 @@ namespace GroupProject.Models.Genre
     public class GenreCreate
     {
         [Required]
-        [MinLength(1, ErrorMessage = "{0} must have at least {1} ")]
+        [MinLength(3, ErrorMessage = "Genre Name must have at least {3} characters ")]
         public string GenreName {get; set;}
     }
 }
