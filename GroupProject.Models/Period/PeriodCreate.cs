@@ -9,10 +9,9 @@ namespace GroupProject.Models.Period
     public class PeriodCreate
     {
         [Required]
-        [MinLength(2, ErrorMessage = "{0} must be at least {1} characters long.")]
-        [MaxLength(100, ErrorMessage = "{0} must contain no more than {1} characters.")]
+        [MinLength(2, ErrorMessage = "Value must be at least {2} characters long.")]
+        [MaxLength(50, ErrorMessage = "Value must contain no more than {50} characters.")]
         public string Name { get; set; }
-        [Required]
         public DateTime StartYear { get; set; }
         public DateTime EndYear {get; set;}
     }
