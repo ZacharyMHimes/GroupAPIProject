@@ -9,12 +9,11 @@ namespace GroupProject.Models.Composition
     public class CompositionCreate
     {
         [Required]
-        [MinLength(1, ErrorMessage = "{0} must have at least {1} ")]
+        [MinLength(3, ErrorMessage = "Composition must have at least {3} characters")]
         public string Title { get; set; }
         public int ComposerId { get; set; }
-        public int GenreId { get; set; }
-        public int PeriodId { get; set; }
-        public string? Instruments { get; set; }
-        
+        public int? GenreId { get; set; }
+        public int? PeriodId { get; set; }
+        public string? Instruments { get; set; }   
     }
 }
