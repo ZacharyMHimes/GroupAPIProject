@@ -21,11 +21,17 @@ namespace GroupProject.Models.Composer
         [MaxLength
             (100, ErrorMessage = "{0} must contain no more than {1} characters.")]
         public string LastName {get; set;}
+        [MinLength
+            (2, ErrorMessage = "{0} must be at least {1} characters long.")]
+        [MaxLength
+            (100, ErrorMessage = "{0} must contain no more than {1} characters.")]
         public string? Nationality {get; set;}
         public DateTime? BirthDate {get; set;}
         public DateTime? DeathDate {get; set;}
         public int? SexyQuotientUpVotes {get;set;}
         public int? SexyQuotientTotalVotes {get; set;}
+        [MinLength
+            (2, ErrorMessage = "{0} must be at least {1} characters long.")]
         public string? CauseOfDeath {get; set;}
 
         
