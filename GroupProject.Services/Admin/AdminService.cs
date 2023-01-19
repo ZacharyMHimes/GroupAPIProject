@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Data;
 using GroupProject.Models.Admin;
+using Microsoft.AspNetCore.Identity;
 
 namespace GroupProject.Services.Admin
 {
@@ -20,7 +21,8 @@ namespace GroupProject.Services.Admin
                 UserName = newAdmin.Username,
                 Password = newAdmin.Password
             };
-
+            var passwordHasher = new PasswordHasher<AdminEntity>();
+            entity.Password = passwordHasher.HashPassword(entity, newAdmin.Password);
             _dbContext.Admins.Add(entity);
             return await _dbContext.SaveChangesAsync() == 1;
         }
