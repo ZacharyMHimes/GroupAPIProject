@@ -90,13 +90,16 @@ namespace GroupProject.WebAPI.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateCompositionViewsAndDitters/")]
-        public async Task<IActionResult> UpdateCompositionDittersAndViews([FromBody] CompositionUpdateDitterView request)
+        [Route("UpdateCompositionDitters/")]
+        public async Task<IActionResult> UpdateCompositionDitters([FromBody] CompositionUpdateDitter request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            
+            if(request.DitterDorfs is 0)
+                return BadRequest("DitterDorfs must be -1 or 1. Zero not a valid value.");
 
-            return await _compositionService.UpdateCompositionDittersAndViewsAsync(request)
+            return await _compositionService.UpdateCompositionDittersAsync(request)
                 ? Ok()
                 : BadRequest("An Error Occurred");
         }
