@@ -8,6 +8,8 @@ namespace GroupProject.Models.Instrument
 {
     public class InstrumentUpdate
     {
+        [Required]
+        [MinLength(1, ErrorMessage = "{0} must have at least {1} ")]
         public int Id {get; set;}
         public string InstrumentName {get; set;}
     }
