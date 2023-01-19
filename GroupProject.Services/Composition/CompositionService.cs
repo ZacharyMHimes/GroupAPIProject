@@ -186,6 +186,17 @@ namespace GroupProject.Services.Composition
             return numberOfChanges == 1;
         }
 
+        //Updates Likes and Views on a composition.
+        public async Task<bool>UpdateCompositionDittersAndViewsAsync(CompositionUpdateDitterView request)
+        {
+            var compositionEntity = await _dbContext.Compositions.FindAsync(request.Id);
+            compositionEntity.Id = request.Id;
+            compositionEntity.TotalViews = compositionEntity.TotalViews + 1;
+            compositionEntity.DitterDorfs = request.DitterDorfs;
+
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
+            return numberOfChanges == 1;
+        }
         public async Task<bool> DeleteCompositionAsync(int Id)
         {
             var compositionEntity = await _dbContext.Composers.FindAsync(Id);
