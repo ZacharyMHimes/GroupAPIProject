@@ -7,6 +7,8 @@ using GroupProject.Services.Instrument;
 using Microsoft.EntityFrameworkCore;
 using GroupProject.Services.Composition;
 using GroupProject.Services.Instrumentation;
+using GroupProject.Services.Admin;
+using GroupProject.Services.Token;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IComposerService, ComposerService>();
 builder.Services.AddScoped<ICauseOfDeathService, CauseOfDeathService>();
 builder.Services.AddScoped<IPeriodService, PeriodService>();
