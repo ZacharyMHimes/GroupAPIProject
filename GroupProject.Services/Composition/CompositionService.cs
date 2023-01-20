@@ -90,22 +90,27 @@ namespace GroupProject.Services.Composition
                 .Include(entity => entity.Instrumentations)
                 .ThenInclude(entity => entity.Instrument)
                 .FirstOrDefaultAsync(comp => comp.Id == Id);
+            if (foundComposition is null)
+                return null;
 
-            return foundComposition is null
-                ? null
-                : new CompositionDetail
-                {
-                    Id = foundComposition.Id,
-                    Title = foundComposition.Title,
-                    ComposerName = $"{foundComposition.Composer.FirstName} {foundComposition.Composer.LastName}",
-                    OpusNumber = foundComposition.OpusNumber,
-                    TotalViews = foundComposition.TotalViews,
-                    DitterDorfs = foundComposition.DitterDorfs,
-                    GenreName = foundComposition.Genre?.GenreName,
-                    PeriodName = foundComposition.Period?.Name,
-                    // converts List<InstrumentEntity> into a list of instrument names ( List<string> )
-                    instruments = foundComposition.Instrumentations.Select(instrumentation => instrumentation.Instrument.InstrumentName).ToList()
-                };
+            var viewsUpdated = await UpdateCompositionTotalViewsAsync(foundComposition);
+            
+            return (viewsUpdated is true)?
+                new CompositionDetail
+                    {
+                        Id = foundComposition.Id,
+                        Title = foundComposition.Title,
+                        ComposerName = $"{foundComposition.Composer.FirstName} {foundComposition.Composer.LastName}",
+                        OpusNumber = foundComposition.OpusNumber,
+                        TotalViews = foundComposition.TotalViews,
+                        DitterDorfs = foundComposition.DitterDorfs,
+                        GenreName = foundComposition.Genre?.GenreName,
+                        PeriodName = foundComposition.Period?.Name,
+                        // converts List<InstrumentEntity> into a list of instrument names ( List<string> )
+                        instruments = foundComposition.Instrumentations.Select(instrumentation => instrumentation.Instrument.InstrumentName).ToList()
+                    }
+            :null;
+
         }
 
         public async Task<IEnumerable<CompositionListItem>> GetAllCompositionsAsync()
@@ -173,7 +178,9 @@ namespace GroupProject.Services.Composition
         public async Task<bool> UpdateCompositionAsync(CompositionUpdate request)
         {
             var compositionEntity = await _dbContext.Compositions.FindAsync(request.Id);
-            compositionEntity.Id = request.Id;
+            if (compositionEntity is null)
+                return false;
+
             compositionEntity.Title = request.Title;
             compositionEntity.OpusNumber = request.OpusNumber;
             compositionEntity.TotalViews = request.TotalViews;
@@ -186,10 +193,32 @@ namespace GroupProject.Services.Composition
             return numberOfChanges == 1;
         }
 
+        //Updates Likes on a composition.
+        public async Task<bool>UpdateCompositionDittersAsync(CompositionUpdateDitter request)
+        {
+            var compositionEntity = await _dbContext.Compositions.FindAsync(request.Id);
+            if (compositionEntity is null)
+                return false;
+
+            compositionEntity.DitterDorfs += request.DitterDorfs;
+
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
+            return numberOfChanges == 1;
+        }
         public async Task<bool> DeleteCompositionAsync(int Id)
         {
             var compositionEntity = await _dbContext.Composers.FindAsync(Id);
+            if (compositionEntity is null)
+                return false; 
+
             _dbContext.Composers.Remove(compositionEntity);
+            return await _dbContext.SaveChangesAsync() == 1;
+        }
+
+        private async Task<bool> UpdateCompositionTotalViewsAsync(CompositionEntity composition)
+        {
+            composition.TotalViews += 1;
+
             return await _dbContext.SaveChangesAsync() == 1;
         }
     }

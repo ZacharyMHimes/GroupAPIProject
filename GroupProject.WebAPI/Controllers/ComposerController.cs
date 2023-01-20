@@ -47,7 +47,7 @@ namespace GroupProject.WebAPI.Controllers
                 : NotFound();
         }
 
-        [HttpPut]
+        [HttpPut("UpdateComposerDetail")]
         public async Task<IActionResult> UpdateComposerById([FromBody] ComposerUpdate request)
         {
             if(!ModelState.IsValid)
@@ -57,12 +57,24 @@ namespace GroupProject.WebAPI.Controllers
                 ? Ok("Composer entry updated successfully.")
                 : BadRequest("Composer entry could not be updated.");
         }
+
+        [HttpPut("UpdateSexyQuotient")]
+        public async Task<IActionResult> UpdateComposerSexyQuotient([FromBody] ComposerUpdateSexy sexy)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return await _composerService.UpdateComposerSexyQuotientAsync(sexy)
+                ? Ok("Weird that you think about how sexy all these dead guys are.")
+                : BadRequest("Could not update Sexy Quotient value.");
+        }
+
         [Authorize]
         [HttpDelete("Delete/{Id:int}")]
-        public async Task<IActionResult> DeleteComposer([FromRoute] int Id) //*it'd be cool to pass in First and Last name so return string could say their name instead of arbitrary ID.
+        public async Task<IActionResult> DeleteComposer([FromRoute] int Id) 
         {
             return await _composerService.DeleteComposerAsync(Id)
-                ? Ok($"Composer was deleted successfully.") //todo check string concatenation syntax
+                ? Ok($"Composer was deleted successfully.") 
                 : BadRequest($"Composer Entry could not be deleted.");
         }
         

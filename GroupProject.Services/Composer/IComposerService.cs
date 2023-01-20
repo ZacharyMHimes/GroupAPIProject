@@ -13,6 +13,7 @@ namespace GroupProject.Services.Composer
     Task<ComposerDetail?> GetComposerIdAsync(int composerId);
     Task<IEnumerable<ComposerSexyListItem>> GetComposersByHotnessAsync(int numberOfComposers);
     Task<bool> UpdateComposerAsync(ComposerUpdate request);
+    Task<bool> UpdateComposerSexyQuotientAsync(ComposerUpdateSexy sexy);
     Task<bool> DeleteComposerAsync(int composerId);
 
     }

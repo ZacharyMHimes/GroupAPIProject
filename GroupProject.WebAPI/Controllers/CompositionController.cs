@@ -79,7 +79,9 @@ namespace GroupProject.WebAPI.Controllers
             return Ok(compositions);
         }
 
+        [Authorize]
         [HttpPut]
+        [Route("UpdateCompositionDetail")]
         public async Task<IActionResult> UpdateCompositionById([FromBody] CompositionUpdate request)
         {
             if (!ModelState.IsValid)
@@ -88,6 +90,22 @@ namespace GroupProject.WebAPI.Controllers
             return await _compositionService.UpdateCompositionAsync(request)
                 ? Ok("Composition entry updated successfully.")
                 : BadRequest("Composition entry could not be updated.");
+        }
+
+        
+        [HttpPut]
+        [Route("UpdateCompositionDitters")]
+        public async Task<IActionResult> UpdateCompositionDitters([FromBody] CompositionUpdateDitter request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            if(request.DitterDorfs is 0)
+                return BadRequest("DitterDorfs must be -1 or 1. Zero not a valid value.");
+
+            return await _compositionService.UpdateCompositionDittersAsync(request)
+                ? Ok()
+                : BadRequest("An Error Occurred");
         }
 
         [Authorize]
