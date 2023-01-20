@@ -123,7 +123,7 @@ namespace GroupProject.Services.Composer
                     
             return composers;
         }
-
+        
         public async Task<bool> UpdateComposerAsync(ComposerUpdate request)
         {
             var composerEntity = await _dbContext.Composers
@@ -138,8 +138,10 @@ namespace GroupProject.Services.Composer
             composerEntity.DeathDate = request.DeathDate;
             composerEntity.SexyQuotientUpVotes = request.SexyQuotientUpVotes;
             composerEntity.SexyQuotientTotalVotes = request.SexyQuotientTotalVotes;
-            composerEntity.CauseOfDeath = await _dbContext.CausesOfDeath.FirstOrDefaultAsync(entity => entity.CauseOfDeath.ToLower() == request.CauseOfDeath.ToLower());
-
+            composerEntity.CauseOfDeath = (request.CauseOfDeath is not null)
+                ? await _dbContext.CausesOfDeath.FirstOrDefaultAsync(entity => entity.CauseOfDeath.ToLower() == request.CauseOfDeath.ToLower())
+                : null;
+            
             var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
         }

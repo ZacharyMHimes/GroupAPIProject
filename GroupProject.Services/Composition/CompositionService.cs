@@ -207,12 +207,14 @@ namespace GroupProject.Services.Composition
         }
         public async Task<bool> DeleteCompositionAsync(int Id)
         {
-            var compositionEntity = await _dbContext.Composers.FindAsync(Id);
+            var compositionEntity = await _dbContext.Compositions
+                .Include(entity => entity.Instrumentations)
+                .FirstOrDefaultAsync(entity => entity.Id == Id);
             if (compositionEntity is null)
-                return false; 
+                return false;
 
-            _dbContext.Composers.Remove(compositionEntity);
-            return await _dbContext.SaveChangesAsync() == 1;
+            _dbContext.Compositions.Remove(compositionEntity);
+            return await _dbContext.SaveChangesAsync() > 0;
         }
 
         private async Task<bool> UpdateCompositionTotalViewsAsync(CompositionEntity composition)

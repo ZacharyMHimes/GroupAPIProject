@@ -47,6 +47,7 @@ namespace GroupProject.WebAPI.Controllers
                 : NotFound();
         }
 
+        [Authorize]
         [HttpPut("UpdateComposerDetail")]
         public async Task<IActionResult> UpdateComposerById([FromBody] ComposerUpdate request)
         {
