@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,20 @@ namespace GroupProject.WebAPI.Controllers
             if (adminDetail is null)
                 return NotFound();
             return Ok(adminDetail);
+        }
+        [Authorize]
+        [HttpPut]
+        public async Task<IActionResult> UpdateAdmin([FromBody] AdminUpdate request)
+        {
+            var currentUserClaims = HttpContext.User.Identity as ClaimsIdentity;
+            var currentUserId = currentUserClaims.FindFirst("Id")?.Value;
+            if (int.Parse(currentUserId) != request.Id)
+                return Unauthorized("Invalid update access of current user");
+            var success = await _adminService.UpdateAdminAsync(request);
+            if (success)
+                return Ok("Admin info updated");
+            
+            return BadRequest("Admin unable to be updated");
         }
     }
 }
