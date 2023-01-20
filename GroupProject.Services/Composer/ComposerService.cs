@@ -123,13 +123,14 @@ namespace GroupProject.Services.Composer
                     
             return composers;
         }
-// Should Admin be able to edit sexy quotient at will?
-//todo - Add Update Composer SexyQuotient Async Method
+
         public async Task<bool> UpdateComposerAsync(ComposerUpdate request)
         {
             var composerEntity = await _dbContext.Composers
                                 .Include(entity => entity.CauseOfDeath)
                                 .FirstOrDefaultAsync(entity => entity.Id == request.Id);
+            if (composerEntity is null)
+                return false;
             composerEntity.FirstName = request.FirstName;
             composerEntity.LastName = request.LastName;
             composerEntity.Nationality = request.Nationality;
@@ -141,16 +142,32 @@ namespace GroupProject.Services.Composer
 
             var numberOfChanges = await _dbContext.SaveChangesAsync();
             return numberOfChanges == 1;
+        }
 
+        public async Task<bool> UpdateComposerSexyQuotientAsync(ComposerUpdateSexy sexy)
+        {
+            var composerEntity = await _dbContext.Composers.FindAsync(sexy.Id);
+            if (composerEntity is null)
+                return false;
+            
+            if (sexy.IsSexy)
+            {
+                composerEntity.SexyQuotientUpVotes += 1;
+            }
+                
+                composerEntity.SexyQuotientTotalVotes += 1;
+
+            var numberOfChanges = await _dbContext.SaveChangesAsync();
+            return numberOfChanges == 1;
         }
 
         public async Task<bool> DeleteComposerAsync(int Id)
         {
             var composerEntity = await _dbContext.Composers.FindAsync(Id);
+            if (composerEntity is null)
+                return false;
             _dbContext.Composers.Remove(composerEntity);
             return await _dbContext.SaveChangesAsync() == 1;
-        }
-
-        
+        }      
     }
 }

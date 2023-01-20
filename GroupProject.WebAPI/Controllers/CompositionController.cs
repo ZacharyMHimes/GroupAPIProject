@@ -78,7 +78,7 @@ namespace GroupProject.WebAPI.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateCompositionDetail/")]
+        [Route("UpdateCompositionDetail")]
         public async Task<IActionResult> UpdateCompositionById([FromBody] CompositionUpdate request)
         {
             if (!ModelState.IsValid)
@@ -90,7 +90,7 @@ namespace GroupProject.WebAPI.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateCompositionDitters/")]
+        [Route("UpdateCompositionDitters")]
         public async Task<IActionResult> UpdateCompositionDitters([FromBody] CompositionUpdateDitter request)
         {
             if (!ModelState.IsValid)
