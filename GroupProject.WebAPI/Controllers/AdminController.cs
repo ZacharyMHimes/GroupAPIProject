@@ -70,5 +70,15 @@ namespace GroupProject.WebAPI.Controllers
             
             return BadRequest("Admin unable to be updated");
         }
+        [Authorize]
+        [HttpDelete]
+        [Route("{Id}")]
+        public async Task<IActionResult> DeleteAdmin([FromRoute] int Id)
+        {
+            var success = await _adminService.DeleteAdminAsync(Id);
+            if (!success)
+                return BadRequest("Admin could not be deleted.");
+            return Ok("Admin successfully deleted");
+        }
     }
 }

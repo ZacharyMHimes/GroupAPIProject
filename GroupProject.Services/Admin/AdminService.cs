@@ -51,5 +51,13 @@ namespace GroupProject.Services.Admin
             }
             return (await _dbContext.SaveChangesAsync() == 1);
         }
+        public async Task<bool> DeleteAdminAsync(int Id)
+        {
+            var foundAdmin = await _dbContext.Admins.FindAsync(Id);
+            if (foundAdmin is null)
+                return false;
+            _dbContext.Admins.Remove(foundAdmin);
+            return (await _dbContext.SaveChangesAsync() == 1);
+        }
     }
 }
