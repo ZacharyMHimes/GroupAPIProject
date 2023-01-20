@@ -68,10 +68,10 @@ namespace GroupProject.WebAPI.Controllers
                 : BadRequest("Could not update Sexy Quotient value.");
         }
         [HttpDelete("Delete/{Id:int}")]
-        public async Task<IActionResult> DeleteComposer([FromRoute] int Id) //*it'd be cool to pass in First and Last name so return string could say their name instead of arbitrary ID.
+        public async Task<IActionResult> DeleteComposer([FromRoute] int Id) 
         {
             return await _composerService.DeleteComposerAsync(Id)
-                ? Ok($"Composer was deleted successfully.") //todo check string concatenation syntax
+                ? Ok($"Composer was deleted successfully.") 
                 : BadRequest($"Composer Entry could not be deleted.");
         }
         
