@@ -111,7 +111,7 @@ namespace GroupProject.Data.Migrations
                         column: x => x.ComposerId,
                         principalTable: "Composers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Compositions_Genres_GenreId",
                         column: x => x.GenreId,

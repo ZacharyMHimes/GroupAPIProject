@@ -116,11 +116,12 @@ namespace GroupProject.Services.Composition
         public async Task<IEnumerable<CompositionListItem>> GetAllCompositionsAsync()
         {
             var compositions = await _dbContext.Compositions
+                .Include(entity => entity.Composer)
                 .Select(entity => new CompositionListItem
                 {
                     Id = entity.Id,
                     Title = entity.Title,
-                    ComposerId = entity.Composer.Id
+                    ComposerId = (entity.Composer == null) ? null : entity.Composer.Id
                 })
                     .ToListAsync();
 

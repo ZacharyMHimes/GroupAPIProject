@@ -15,7 +15,7 @@ using System.Threading.Tasks;
         public int TotalViews {get; set;}
         public int DitterDorfs {get; set;}
 
-        public ComposerEntity Composer {get; set;}
+        public ComposerEntity? Composer {get; set;}
         public GenreEntity? Genre {get; set;}
         public PeriodEntity? Period {get; set;}
         
