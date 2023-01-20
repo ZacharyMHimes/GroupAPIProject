@@ -101,7 +101,7 @@ namespace GroupProject.Services.Composer
                         DeathDate = composerEntity.DeathDate,
                         SexyQuotientUpVotes = composerEntity.SexyQuotientUpVotes,
                         SexyQuotientTotalVotes = composerEntity.SexyQuotientTotalVotes,
-                        CauseOfDeath = composerEntity.CauseOfDeath.CauseOfDeath
+                        CauseOfDeath = composerEntity.CauseOfDeath?.CauseOfDeath
                         
                     };
         }
