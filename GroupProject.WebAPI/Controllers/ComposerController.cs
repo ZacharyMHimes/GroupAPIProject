@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Models.Composer;
 using GroupProject.Services.Composer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GroupProject.WebAPI.Controllers
@@ -17,7 +18,7 @@ namespace GroupProject.WebAPI.Controllers
         {
             _composerService = composerService;
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateComposer([FromBody] ComposerCreate request)
             {
@@ -67,6 +68,8 @@ namespace GroupProject.WebAPI.Controllers
                 ? Ok("Weird that you think about how sexy all these dead guys are.")
                 : BadRequest("Could not update Sexy Quotient value.");
         }
+
+        [Authorize]
         [HttpDelete("Delete/{Id:int}")]
         public async Task<IActionResult> DeleteComposer([FromRoute] int Id) 
         {

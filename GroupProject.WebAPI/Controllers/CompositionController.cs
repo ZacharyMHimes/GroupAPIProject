@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GroupProject.Models.Composition;
 using GroupProject.Services.Composition;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GroupProject.WebAPI.Controllers
@@ -18,6 +19,7 @@ namespace GroupProject.WebAPI.Controllers
             _compositionService = compositionService;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateComposition([FromBody] CompositionCreate request)
         {
@@ -77,6 +79,7 @@ namespace GroupProject.WebAPI.Controllers
             return Ok(compositions);
         }
 
+        [Authorize]
         [HttpPut]
         [Route("UpdateCompositionDetail")]
         public async Task<IActionResult> UpdateCompositionById([FromBody] CompositionUpdate request)
@@ -89,6 +92,7 @@ namespace GroupProject.WebAPI.Controllers
                 : BadRequest("Composition entry could not be updated.");
         }
 
+        
         [HttpPut]
         [Route("UpdateCompositionDitters")]
         public async Task<IActionResult> UpdateCompositionDitters([FromBody] CompositionUpdateDitter request)
@@ -104,6 +108,7 @@ namespace GroupProject.WebAPI.Controllers
                 : BadRequest("An Error Occurred");
         }
 
+        [Authorize]
         [HttpDelete("{Id:int}")]
         public async Task<IActionResult> DeleteComposition([FromRoute] int Id)
         {
