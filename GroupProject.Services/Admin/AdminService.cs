@@ -37,6 +37,27 @@ namespace GroupProject.Services.Admin
             };
             return adminDetail;
         }
-        
+        public async Task<bool> UpdateAdminAsync(AdminUpdate model)
+        {
+            var foundAdmin = await _dbContext.Admins.FindAsync(model.Id);
+            if (foundAdmin is null)
+                return false;
+            if (model.Username is not null)
+                foundAdmin.UserName = model.Username;
+            if (model.Password is not null)
+            {
+                var passwordHasher = new PasswordHasher<AdminEntity>();
+                foundAdmin.Password = passwordHasher.HashPassword(foundAdmin, model.Password);
+            }
+            return (await _dbContext.SaveChangesAsync() == 1);
+        }
+        public async Task<bool> DeleteAdminAsync(int Id)
+        {
+            var foundAdmin = await _dbContext.Admins.FindAsync(Id);
+            if (foundAdmin is null)
+                return false;
+            _dbContext.Admins.Remove(foundAdmin);
+            return (await _dbContext.SaveChangesAsync() == 1);
+        }
     }
 }
