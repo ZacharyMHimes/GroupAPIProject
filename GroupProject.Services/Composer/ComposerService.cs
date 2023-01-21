@@ -7,15 +7,18 @@ using GroupProject.Data;
 using GroupProject.Models.Composer;
 using Microsoft.EntityFrameworkCore;
 using GroupProject.Services.CauseOfDeath;
+using GroupProject.Models.CauseOfDeath;
 
 namespace GroupProject.Services.Composer 
 {
     public class ComposerService : IComposerService
     {
         private readonly ApplicationDbContext _dbContext;
-        public ComposerService(ApplicationDbContext dbContext)
+        private readonly ICauseOfDeathService _cService;
+        public ComposerService(ApplicationDbContext dbContext, ICauseOfDeathService cService)
         {
             _dbContext = dbContext;
+            _cService = cService;
         }
 
 
@@ -38,7 +41,7 @@ namespace GroupProject.Services.Composer
             _dbContext.Composers.Add(composerEntity);
             var numberOfChanges = await _dbContext.SaveChangesAsync();
 
-            //If the User didn't enter a cause of Death, return true.
+            //If the User didn't enter a cause of Death, return true
             if(request.CauseOfDeath is null || request.CauseOfDeath.Length == 0)
             {
                 return true;
@@ -62,6 +65,11 @@ namespace GroupProject.Services.Composer
                         //Save to the Database and return true
                         numberOfChanges = await _dbContext.SaveChangesAsync();
                         return true;
+                        // await _cService.CreateCauseOfDeathAsync(new CauseCreate
+                        // {
+                        //         request.CauseOfDeath;
+                        // });
+
                     }
                     else 
                     {
