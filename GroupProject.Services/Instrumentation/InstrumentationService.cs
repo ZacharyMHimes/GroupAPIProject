@@ -43,9 +43,13 @@ namespace GroupProject.Services.Instrumentation
         public async Task<IEnumerable<InstrumentationListItem>> GetAllInstrumentationAsync()
         {
             var instrumentations = await _dbContext.Instrumentations
+            .Include(entity => entity.Composition)
+            .Include(entity => entity.Instrument)
             .Select(entity => new InstrumentationListItem
             {
-
+                Id = entity.Id,
+                Instrument = entity.Instrument.InstrumentName,
+                CompositionId = (entity.Composition == null)? null : entity.Composition.Id
             })
             .ToListAsync();
 

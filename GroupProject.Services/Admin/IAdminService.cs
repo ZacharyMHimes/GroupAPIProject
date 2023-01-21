@@ -10,7 +10,7 @@ namespace GroupProject.Services.Admin
     {
         Task<bool> RegisterAdminAsync(AdminCreate newAdmin);
         Task<AdminDetail> GetAdminByIdAsync(int Id);
-        // Task<IEnumerable<AdminEntity>> GetAllAdminsAsync();
+        Task<List<AdminListItem>> GetAllAdminsAsync();
         Task<bool> UpdateAdminAsync(AdminUpdate newAdminInfo);
         Task<bool> DeleteAdminAsync(int Id);
     }

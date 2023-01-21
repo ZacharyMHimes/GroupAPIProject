@@ -45,7 +45,12 @@ namespace GroupProject.WebAPI.Controllers
                 return BadRequest("Invalid username or password");
             return Ok(tokenResponse);
         }
-
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetAllAdmins()
+        {
+            return Ok(await _adminService.GetAllAdminsAsync());
+        }
         [Authorize]
         [HttpGet]
         [Route("{Id}")]

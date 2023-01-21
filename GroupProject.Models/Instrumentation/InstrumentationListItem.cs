@@ -9,6 +9,6 @@ namespace GroupProject.Models.Instrumentation
     {
         public int Id {get; set;}
         public string Instrument { get; set; }
-        public int CompositionId { get; set; }
+        public int? CompositionId { get; set; }
     }
 }

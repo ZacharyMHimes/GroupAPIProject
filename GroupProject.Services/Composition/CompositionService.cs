@@ -100,7 +100,7 @@ namespace GroupProject.Services.Composition
                     {
                         Id = foundComposition.Id,
                         Title = foundComposition.Title,
-                        ComposerName = $"{foundComposition.Composer.FirstName} {foundComposition.Composer.LastName}",
+                        ComposerName = (foundComposition.Composer is null)? "Composer Unknown" : $"{foundComposition.Composer.FirstName} {foundComposition.Composer.LastName}",
                         OpusNumber = foundComposition.OpusNumber,
                         TotalViews = foundComposition.TotalViews,
                         DitterDorfs = foundComposition.DitterDorfs,
@@ -213,7 +213,7 @@ namespace GroupProject.Services.Composition
                 .FirstOrDefaultAsync(entity => entity.Id == Id);
             if (compositionEntity is null)
                 return false;
-
+            _dbContext.Instrumentations.RemoveRange(compositionEntity.Instrumentations);
             _dbContext.Compositions.Remove(compositionEntity);
             return await _dbContext.SaveChangesAsync() > 0;
         }

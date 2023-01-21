@@ -34,8 +34,8 @@ namespace GroupProject.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllInstrumentation()
         {
-            var notes = await _instrumentationService.GetAllInstrumentationAsync();
-            return Ok();
+            var instrumentations = await _instrumentationService.GetAllInstrumentationAsync();
+            return Ok(instrumentations);
         }
 
         [HttpGet("{instrumentationId:int}")]

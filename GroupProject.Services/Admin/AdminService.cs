@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GroupProject.Data;
 using GroupProject.Models.Admin;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace GroupProject.Services.Admin
 {
@@ -17,6 +18,9 @@ namespace GroupProject.Services.Admin
         }
         public async Task<bool> RegisterAdminAsync(AdminCreate newAdmin)
         {
+            var searchForUsernameEntity = await _dbContext.Admins.FirstOrDefaultAsync(admin => admin.UserName == newAdmin.Username);
+            if (searchForUsernameEntity is not null)
+                return false;
             var entity = new AdminEntity {
                 UserName = newAdmin.Username,
                 Password = newAdmin.Password
@@ -25,6 +29,13 @@ namespace GroupProject.Services.Admin
             entity.Password = passwordHasher.HashPassword(entity, newAdmin.Password);
             _dbContext.Admins.Add(entity);
             return await _dbContext.SaveChangesAsync() == 1;
+        }
+        public async Task<List<AdminListItem>> GetAllAdminsAsync()
+        {
+            return await _dbContext.Admins.Select(admin => new AdminListItem {
+                Id = admin.Id,
+                Username = admin.UserName
+            }).ToListAsync();
         }
         public async Task<AdminDetail> GetAdminByIdAsync(int Id)
         {
