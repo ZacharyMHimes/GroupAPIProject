@@ -46,7 +46,7 @@ namespace GroupProject.WebAPI.Controllers
             ? Ok(detail)
             : NotFound();
         }
-
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateInstrumentationById([FromBody] InstrumentationUpdate request)
         {

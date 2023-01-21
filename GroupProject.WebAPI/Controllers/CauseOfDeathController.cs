@@ -48,7 +48,7 @@ namespace GroupProject.WebAPI.Controllers
                 ? Ok(detail)
                 : NotFound();
         }
-
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateComposerById([FromBody] CauseModel request)
         {
